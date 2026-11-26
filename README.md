@@ -7,6 +7,7 @@ Chạy hoàn toàn trên máy, **không phát sinh chi phí**. Độc lập: kh�
 - Cài đặt: [`CAI_DAT.md`](CAI_DAT.md) · Phiên bản thư viện: [`PHIEN_BAN.md`](PHIEN_BAN.md)
 - Cho AI: [`SKILL.md`](SKILL.md) (định tuyến) · [`AGENTS.md`](AGENTS.md) · [`CLAUDE.md`](CLAUDE.md) · `.claude/skills/`
 - Kết quả kiểm thử: [`BAO_CAO_KIEM_THU.md`](BAO_CAO_KIEM_THU.md)
+- Trạng thái & bàn giao: [`CHECKPOINT.md`](CHECKPOINT.md) · [`BAN_GIAO.md`](BAN_GIAO.md) (Claude / ChatGPT) · [`QUY_TRINH_HIEU_CHINH.md`](QUY_TRINH_HIEU_CHINH.md)
 
 ## Làm được gì
 | Chức năng | Lệnh |

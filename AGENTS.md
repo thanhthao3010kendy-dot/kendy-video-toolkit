@@ -12,6 +12,9 @@ Không cần cơ chế "skill" riêng: mỗi tệp `.claude/skills/*/SKILL.md` l
 
 Bộ công cụ dựng video dọc 9:16 độc lập cho Kendy Huyền Học. Đọc `SKILL.md` (bộ định tuyến) trước mọi việc dựng video.
 
+## Bắt đầu phiên
+Đọc `CHECKPOINT.md` (trạng thái, việc đang chờ) và `BAN_GIAO.md`. Kết thúc phiên: cập nhật `CHECKPOINT.md`, `HIEU_CHINH.md`.
+
 ## Quy tắc
 1. Trả lời Kendy bằng tiếng Việt, rõ ràng, ít thuật ngữ lập trình.
 2. Không phát sinh chi phí khi Kendy chưa đồng ý (không dịch vụ trả phí, không lệnh HyperFrames publish/billing/templates).
