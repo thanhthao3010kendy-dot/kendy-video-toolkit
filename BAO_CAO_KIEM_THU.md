@@ -51,10 +51,12 @@ không có đường dẫn cố định của máy ảo. Kết quả trên máy 
 ## 6. Kiểm tra khôi phục (môi trường sạch)
 - Lần 1 – sao chép kho sang thư mục mới, thư mục người dùng riêng, không bộ nhớ đệm pip/npm: phát hiện lỗi số 8; sau khi sửa:
   cài trong 4 phút 10 giây (gồm tải ~2 GB mô hình), **28/28 bài đạt** (bản trước khi thêm 3 bài cuối).
-- Lần 2 – tải từ GitHub về máy sạch: xem mục 7.
+- Lần 2 – tải từ GitHub về máy sạch: đạt, xem mục 7.
 
 ## 7. Khôi phục từ GitHub
-(điền sau khi thử)
+Tải kho `thanhthao3010kendy-dot/kendy-video-toolkit` (commit 69f7199) về thư mục mới, thư mục người dùng riêng,
+không bộ nhớ đệm pip/npm/mô hình → `./cai-dat.sh`: cài trong **3 phút 48 giây** (gồm tải ~2 GB mô hình Whisper),
+tự tìm Chrome headless, **31/31 bài kiểm thử đạt**. Không phụ thuộc đường dẫn cố định của máy ảo (có bài kiểm thử riêng).
 
 ## 8. Hạn chế còn lại
 - Phụ đề có thể đè lá bài khi người nói hạ lá bài xuống ngang dải phụ đề – cần hiệu chỉnh theo khung hình thật của Kendy
