@@ -10,8 +10,10 @@ say() { printf '\n== %s\n' "$*"; }
 
 say "Kiểm tra công cụ hệ thống"
 for b in ffmpeg ffprobe python3 node npm; do command -v $b >/dev/null || { echo "Thiếu $b – cài trước (xem CAI_DAT.md)"; exit 1; }; done
-ffmpeg -hide_banner -filters | grep -q " subtitles " || { echo "FFmpeg thiếu libass (phụ đề)"; exit 1; }
-ffmpeg -hide_banner -encoders | grep -q libx264 || { echo "FFmpeg thiếu libx264"; exit 1; }
+# đọc hết danh sách trước rồi mới tìm (tránh lỗi "ống bị đóng sớm" khi dùng pipefail)
+FILTERS="$(ffmpeg -hide_banner -filters 2>/dev/null)"; ENCODERS="$(ffmpeg -hide_banner -encoders 2>/dev/null)"
+grep -q " subtitles " <<<"$FILTERS" || { echo "FFmpeg thiếu libass (phụ đề)"; exit 1; }
+grep -q "libx264" <<<"$ENCODERS" || { echo "FFmpeg thiếu libx264"; exit 1; }
 python3 -c 'import sys; sys.exit(0 if sys.version_info >= (3,10) else 1)' || { echo "Cần Python ≥ 3.10"; exit 1; }
 node -e 'process.exit(parseInt(process.versions.node) >= 22 ? 0 : 1)' || { echo "Cần Node.js ≥ 22"; exit 1; }
 
