@@ -1,0 +1,297 @@
+{
+ "linh_vuc": "nhan-tuong",
+ "ten": "Nhân Tướng Học",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "",
+ "goi_y_whisper": [
+  "Nhân Tướng Học",
+  "Tam Đình",
+  "Ấn Đường",
+  "Sơn Căn",
+  "Chuẩn Đầu",
+  "Pháp Lệnh",
+  "Nhân Trung",
+  "Ngọa Tằm",
+  "Lưỡng Quyền",
+  "Địa Các",
+  "khí sắc",
+  "Ma Y Thần Tướng"
+ ],
+ "muc": [
+  {
+   "chuan": "Tam Đình",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thượng Đình",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trung Đình",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hạ Đình",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngũ Quan",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngũ Nhạc",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tứ Độc",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Đình",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ấn Đường",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Căn",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Niên Thượng",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thọ Thượng",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Chuẩn Đầu",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lan Đài",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đình Úy",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nhân Trung",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Pháp Lệnh",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Các",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lưỡng Quyền",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngọa Tằm",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lệ Đường",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngư Vĩ",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Gian Môn",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Thương",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Khố",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thừa Tương",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Biên Địa",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nhật Giác",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nguyệt Giác",
+   "nhom": "Tam Đình / bộ vị",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Mệnh",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Tài Bạch",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Huynh Đệ",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Điền Trạch",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Tử Tức",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Nô Bộc",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Thê Thiếp",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Tật Ách",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Thiên Di",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Quan Lộc",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Phúc Đức",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Phụ Mẫu",
+   "nhom": "Thập nhị cung (tướng)",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nhân Tướng Học",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ma Y Thần Tướng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thần Tướng Toàn Biên",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "khí sắc",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "thần khí",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cốt tướng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "thủ tướng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "chỉ tay",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "đường Sinh Đạo",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "đường Trí Đạo",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "đường Tâm Đạo",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "đường Định Mệnh",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "nốt ruồi",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngũ Hành hình tướng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  }
+ ]
+}

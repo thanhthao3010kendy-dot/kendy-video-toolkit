@@ -1,0 +1,734 @@
+{
+ "linh_vuc": "tarot",
+ "ten": "Tarot – 78 lá và thuật ngữ",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "Tên tiếng Việt là cách gọi phổ biến; Kendy chọn cách gọi riêng (ví dụ Tiền / Tiền Xu / Ngũ Giác) thì sửa ở đây.",
+ "goi_y_whisper": [
+  "Tarot",
+  "Ẩn Chính",
+  "Ẩn Phụ",
+  "Gậy",
+  "Cốc",
+  "Kiếm",
+  "Tiền",
+  "trải bài",
+  "lá ngược",
+  "The Fool",
+  "The Moon",
+  "Ace of Cups",
+  "Tiểu Đồng",
+  "Hiệp Sĩ",
+  "Nữ Hoàng"
+ ],
+ "muc": [
+  {
+   "chuan": "Chàng Khờ",
+   "nhom": "Ẩn Chính 0",
+   "nguon": "C",
+   "khac": [
+    "The Fool"
+   ]
+  },
+  {
+   "chuan": "Nhà Ảo Thuật",
+   "nhom": "Ẩn Chính 1",
+   "nguon": "C",
+   "khac": [
+    "The Magician"
+   ]
+  },
+  {
+   "chuan": "Nữ Tư Tế",
+   "nhom": "Ẩn Chính 2",
+   "nguon": "C",
+   "khac": [
+    "The High Priestess"
+   ]
+  },
+  {
+   "chuan": "Hoàng Hậu",
+   "nhom": "Ẩn Chính 3",
+   "nguon": "C",
+   "khac": [
+    "The Empress"
+   ]
+  },
+  {
+   "chuan": "Hoàng Đế",
+   "nhom": "Ẩn Chính 4",
+   "nguon": "C",
+   "khac": [
+    "The Emperor"
+   ]
+  },
+  {
+   "chuan": "Giáo Hoàng",
+   "nhom": "Ẩn Chính 5",
+   "nguon": "C",
+   "khac": [
+    "The Hierophant"
+   ]
+  },
+  {
+   "chuan": "Tình Nhân",
+   "nhom": "Ẩn Chính 6",
+   "nguon": "C",
+   "khac": [
+    "The Lovers"
+   ]
+  },
+  {
+   "chuan": "Cỗ Xe",
+   "nhom": "Ẩn Chính 7",
+   "nguon": "C",
+   "khac": [
+    "The Chariot"
+   ]
+  },
+  {
+   "chuan": "Sức Mạnh",
+   "nhom": "Ẩn Chính 8",
+   "nguon": "C",
+   "khac": [
+    "Strength"
+   ]
+  },
+  {
+   "chuan": "Ẩn Sĩ",
+   "nhom": "Ẩn Chính 9",
+   "nguon": "C",
+   "khac": [
+    "The Hermit"
+   ]
+  },
+  {
+   "chuan": "Bánh Xe Số Phận",
+   "nhom": "Ẩn Chính 10",
+   "nguon": "C",
+   "khac": [
+    "Wheel of Fortune"
+   ]
+  },
+  {
+   "chuan": "Công Lý",
+   "nhom": "Ẩn Chính 11",
+   "nguon": "C",
+   "khac": [
+    "Justice"
+   ]
+  },
+  {
+   "chuan": "Người Treo Ngược",
+   "nhom": "Ẩn Chính 12",
+   "nguon": "C",
+   "khac": [
+    "The Hanged Man"
+   ]
+  },
+  {
+   "chuan": "Cái Chết",
+   "nhom": "Ẩn Chính 13",
+   "nguon": "C",
+   "khac": [
+    "Death"
+   ]
+  },
+  {
+   "chuan": "Tiết Chế",
+   "nhom": "Ẩn Chính 14",
+   "nguon": "C",
+   "khac": [
+    "Temperance"
+   ]
+  },
+  {
+   "chuan": "Ác Quỷ",
+   "nhom": "Ẩn Chính 15",
+   "nguon": "C",
+   "khac": [
+    "The Devil"
+   ]
+  },
+  {
+   "chuan": "Tòa Tháp",
+   "nhom": "Ẩn Chính 16",
+   "nguon": "C",
+   "khac": [
+    "The Tower"
+   ]
+  },
+  {
+   "chuan": "Ngôi Sao",
+   "nhom": "Ẩn Chính 17",
+   "nguon": "C",
+   "khac": [
+    "The Star"
+   ]
+  },
+  {
+   "chuan": "Mặt Trăng",
+   "nhom": "Ẩn Chính 18",
+   "nguon": "C",
+   "khac": [
+    "The Moon"
+   ]
+  },
+  {
+   "chuan": "Mặt Trời",
+   "nhom": "Ẩn Chính 19",
+   "nguon": "C",
+   "khac": [
+    "The Sun"
+   ]
+  },
+  {
+   "chuan": "Phán Xét",
+   "nhom": "Ẩn Chính 20",
+   "nguon": "C",
+   "khac": [
+    "Judgement"
+   ]
+  },
+  {
+   "chuan": "Thế Giới",
+   "nhom": "Ẩn Chính 21",
+   "nguon": "C",
+   "khac": [
+    "The World"
+   ]
+  },
+  {
+   "chuan": "Át Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Ace of Wands"
+   ]
+  },
+  {
+   "chuan": "Hai Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Two of Wands"
+   ]
+  },
+  {
+   "chuan": "Ba Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Three of Wands"
+   ]
+  },
+  {
+   "chuan": "Bốn Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Four of Wands"
+   ]
+  },
+  {
+   "chuan": "Năm Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Five of Wands"
+   ]
+  },
+  {
+   "chuan": "Sáu Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Six of Wands"
+   ]
+  },
+  {
+   "chuan": "Bảy Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Seven of Wands"
+   ]
+  },
+  {
+   "chuan": "Tám Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Eight of Wands"
+   ]
+  },
+  {
+   "chuan": "Chín Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Nine of Wands"
+   ]
+  },
+  {
+   "chuan": "Mười Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Ten of Wands"
+   ]
+  },
+  {
+   "chuan": "Tiểu Đồng Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Page of Wands"
+   ]
+  },
+  {
+   "chuan": "Hiệp Sĩ Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Knight of Wands"
+   ]
+  },
+  {
+   "chuan": "Nữ Hoàng Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "Queen of Wands"
+   ]
+  },
+  {
+   "chuan": "Vua Gậy",
+   "nhom": "Ẩn Phụ – Gậy",
+   "nguon": "C",
+   "khac": [
+    "King of Wands"
+   ]
+  },
+  {
+   "chuan": "Át Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Ace of Cups"
+   ]
+  },
+  {
+   "chuan": "Hai Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Two of Cups"
+   ]
+  },
+  {
+   "chuan": "Ba Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Three of Cups"
+   ]
+  },
+  {
+   "chuan": "Bốn Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Four of Cups"
+   ]
+  },
+  {
+   "chuan": "Năm Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Five of Cups"
+   ]
+  },
+  {
+   "chuan": "Sáu Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Six of Cups"
+   ]
+  },
+  {
+   "chuan": "Bảy Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Seven of Cups"
+   ]
+  },
+  {
+   "chuan": "Tám Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Eight of Cups"
+   ]
+  },
+  {
+   "chuan": "Chín Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Nine of Cups"
+   ]
+  },
+  {
+   "chuan": "Mười Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Ten of Cups"
+   ]
+  },
+  {
+   "chuan": "Tiểu Đồng Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Page of Cups"
+   ]
+  },
+  {
+   "chuan": "Hiệp Sĩ Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Knight of Cups"
+   ]
+  },
+  {
+   "chuan": "Nữ Hoàng Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "Queen of Cups"
+   ]
+  },
+  {
+   "chuan": "Vua Cốc",
+   "nhom": "Ẩn Phụ – Cốc",
+   "nguon": "C",
+   "khac": [
+    "King of Cups"
+   ]
+  },
+  {
+   "chuan": "Át Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Ace of Swords"
+   ]
+  },
+  {
+   "chuan": "Hai Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Two of Swords"
+   ]
+  },
+  {
+   "chuan": "Ba Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Three of Swords"
+   ]
+  },
+  {
+   "chuan": "Bốn Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Four of Swords"
+   ]
+  },
+  {
+   "chuan": "Năm Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Five of Swords"
+   ]
+  },
+  {
+   "chuan": "Sáu Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Six of Swords"
+   ]
+  },
+  {
+   "chuan": "Bảy Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Seven of Swords"
+   ]
+  },
+  {
+   "chuan": "Tám Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Eight of Swords"
+   ]
+  },
+  {
+   "chuan": "Chín Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Nine of Swords"
+   ]
+  },
+  {
+   "chuan": "Mười Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Ten of Swords"
+   ]
+  },
+  {
+   "chuan": "Tiểu Đồng Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Page of Swords"
+   ]
+  },
+  {
+   "chuan": "Hiệp Sĩ Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Knight of Swords"
+   ]
+  },
+  {
+   "chuan": "Nữ Hoàng Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "Queen of Swords"
+   ]
+  },
+  {
+   "chuan": "Vua Kiếm",
+   "nhom": "Ẩn Phụ – Kiếm",
+   "nguon": "C",
+   "khac": [
+    "King of Swords"
+   ]
+  },
+  {
+   "chuan": "Át Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Ace of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Hai Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Two of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Ba Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Three of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Bốn Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Four of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Năm Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Five of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Sáu Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Six of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Bảy Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Seven of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Tám Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Eight of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Chín Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Nine of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Mười Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Ten of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Tiểu Đồng Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Page of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Hiệp Sĩ Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Knight of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Nữ Hoàng Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "Queen of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Vua Tiền",
+   "nhom": "Ẩn Phụ – Tiền",
+   "nguon": "C",
+   "khac": [
+    "King of Pentacles"
+   ]
+  },
+  {
+   "chuan": "Ẩn Chính",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ẩn Phụ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bộ Gậy",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bộ Cốc",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bộ Kiếm",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bộ Tiền",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lá ngược",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lá xuôi",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "trải bài",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "rút bài",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "thông điệp",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "năng lượng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Rider Waite",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Oracle",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lá bài chủ đạo",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "tụ bài",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "xào bài",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  }
+ ]
+}

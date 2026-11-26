@@ -1,0 +1,464 @@
+{
+ "linh_vuc": "tu-vi",
+ "ten": "Tử Vi Đẩu Số",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "",
+ "goi_y_whisper": [
+  "Tử Vi",
+  "cung Mệnh",
+  "Thiên Cơ",
+  "Liêm Trinh",
+  "Tham Lang",
+  "Cự Môn",
+  "Phá Quân",
+  "Hóa Kỵ",
+  "Hóa Lộc",
+  "Kình Dương",
+  "Đà La",
+  "Địa Không",
+  "Địa Kiếp",
+  "đại hạn",
+  "tiểu hạn"
+ ],
+ "muc": [
+  {
+   "chuan": "Tử Vi",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Cơ",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thái Dương",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Vũ Khúc",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Đồng",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Liêm Trinh",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Phủ",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thái Âm",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tham Lang",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Cự Môn",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Tướng",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Lương",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thất Sát",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phá Quân",
+   "nhom": "14 Chính tinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Mệnh",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Mệnh"
+   ]
+  },
+  {
+   "chuan": "cung Phụ Mẫu",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Phụ Mẫu"
+   ]
+  },
+  {
+   "chuan": "cung Phúc Đức",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Phúc Đức"
+   ]
+  },
+  {
+   "chuan": "cung Điền Trạch",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Điền Trạch"
+   ]
+  },
+  {
+   "chuan": "cung Quan Lộc",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Quan Lộc"
+   ]
+  },
+  {
+   "chuan": "cung Nô Bộc",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Nô Bộc"
+   ]
+  },
+  {
+   "chuan": "cung Thiên Di",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Thiên Di"
+   ]
+  },
+  {
+   "chuan": "cung Tật Ách",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Tật Ách"
+   ]
+  },
+  {
+   "chuan": "cung Tài Bạch",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Tài Bạch"
+   ]
+  },
+  {
+   "chuan": "cung Tử Tức",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Tử Tức"
+   ]
+  },
+  {
+   "chuan": "cung Phu Thê",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Phu Thê"
+   ]
+  },
+  {
+   "chuan": "cung Huynh Đệ",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Huynh Đệ"
+   ]
+  },
+  {
+   "chuan": "cung Thân",
+   "nhom": "12 cung",
+   "nguon": "C",
+   "khac": [
+    "Thân"
+   ]
+  },
+  {
+   "chuan": "Văn Xương",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Văn Khúc",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tả Phù",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hữu Bật",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Khôi",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Việt",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lộc Tồn",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Mã",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hóa Lộc",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hóa Quyền",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hóa Khoa",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hóa Kỵ",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Kình Dương",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đà La",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Tinh",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Linh Tinh",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Không",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Kiếp",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tuần Không",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Triệt Lộ",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Hình",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Diêu",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hồng Loan",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Hỷ",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đào Hoa",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Cô Thần",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Quả Tú",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thái Tuế",
+   "nhom": "Phụ tinh / Tứ Hóa",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tràng Sinh",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Mộc Dục",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Quan Đới",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lâm Quan",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đế Vượng",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Suy",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bệnh",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tử",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Mộ",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tuyệt",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thai",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Dưỡng",
+   "nhom": "Vòng Tràng Sinh",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Nhị Cục",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Mộc Tam Cục",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Kim Tứ Cục",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thổ Ngũ Cục",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Lục Cục",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lá số Tử Vi",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "an sao",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "đại hạn",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "tiểu hạn",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lưu niên",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "tam phương tứ chính",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Mệnh Vô Chính Diệu",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thân cư",
+   "nhom": "Cục / thuật ngữ",
+   "nguon": "C"
+  }
+ ]
+}

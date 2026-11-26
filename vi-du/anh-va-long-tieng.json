@@ -1,0 +1,15 @@
+{
+  "_huong_dan": "Ảnh lá bài + đoạn video ngắn + file lồng tiếng (WAV/MP3). Thời lượng ảnh tự chia theo độ dài lời thoại (ảnh có 'giay' thì giữ đúng số giây). Khoảng lặng trong file lồng tiếng được cắt trước khi ghép.",
+  "phong_cach": "kendy",
+  "canh": [
+    {"anh": "la-bai/la-1.jpg"},
+    {"video": "canh-trai-bai.mp4", "tu": 0, "den": 5},
+    {"anh": "la-bai/la-2.jpg", "giay": 6},
+    {"anh": "la-bai/la-3.jpg"}
+  ],
+  "long_tieng": "loi-thoai.mp3",
+  "ket_qua": "thanh-pham-916.mp4",
+  "thu_muc_tam": "lam-viec",
+  "loi_goc": "loi-thoai.txt",
+  "cta": {"chu": "Theo dõi Kendy Huyền Học", "phu": "Nhận thông điệp mỗi ngày", "giay": 3.5}
+}

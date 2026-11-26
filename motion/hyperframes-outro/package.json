@@ -1,0 +1,9 @@
+{
+  "name": "hyperframes-outro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "HYPERFRAMES_NO_TELEMETRY=1 ../../node_modules/.bin/hyperframes check",
+    "render": "HYPERFRAMES_NO_TELEMETRY=1 ../../node_modules/.bin/hyperframes render"
+  }
+}

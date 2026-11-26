@@ -1,0 +1,24 @@
+# Môi trường & mô hình (cài lại bằng ./cai-dat.sh)
+.venv/
+node_modules/
+.cache/
+assets/models/*.onnx
+.chrome-path
+__pycache__/
+*.pyc
+# Media thử nghiệm và sản phẩm – không lưu lên kho
+test-media/
+test-out/
+lam-viec/
+**/.hyperframes/
+**/renders/
+*.mp4
+*.mov
+*.mkv
+*.webm
+*.wav
+*.mp3
+*.m4a
+# Bí mật
+.env
+*.key

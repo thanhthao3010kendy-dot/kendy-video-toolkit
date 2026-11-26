@@ -1,0 +1,5 @@
+# Gói Python trực tiếp (phiên bản ghim). Danh sách đầy đủ kèm gói phụ thuộc: requirements.lock
+# PyTorch bản CPU cài riêng trong cai-dat.sh từ download.pytorch.org (nhẹ, không cần GPU): torch==2.15.0
+openai-whisper==20250625
+yt-dlp==2026.10.26
+opencv-python-headless==5.0.0.93

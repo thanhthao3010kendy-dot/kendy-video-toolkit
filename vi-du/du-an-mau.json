@@ -1,0 +1,17 @@
+{
+  "_huong_dan": "Video quay thật, phong cách Kendy. Sao chép tệp này vào thư mục chứa video, sửa đường dẫn rồi chạy: bin/kvt dung du-an.json. Đường dẫn tính từ thư mục chứa tệp cấu hình. Mục nào không cần thì xoá hoặc để null. Mọi mục không ghi sẽ lấy theo presets/kendy.json.",
+  "phong_cach": "kendy",
+  "video": "video-tho.mp4",
+  "am_thanh_rieng": null,
+  "ket_qua": "thanh-pham-916.mp4",
+  "thu_muc_tam": "lam-viec",
+  "loi_goc": null,
+  "phu_de_tham_so": {"linh_vuc": ["tarot"]},
+  "la_bai": [{"anh": "la-bai/mat-trang.jpg", "bat_dau": 6, "ket_thuc": 12}],
+  "diem_nhan": [{"chu": "Lá bài chủ đạo", "phu": "Mặt Trăng", "bat_dau": 6, "ket_thuc": 9}],
+  "cta": {"chu": "Theo dõi Kendy Huyền Học", "phu": "Nhận thông điệp mỗi ngày", "giay": 3.5},
+  "vung_tranh": [],
+  "nhac": null,
+  "intro": null,
+  "outro": null
+}

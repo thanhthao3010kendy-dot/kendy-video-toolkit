@@ -1,0 +1,827 @@
+{
+ "linh_vuc": "bat-tu-manh-phai",
+ "ten": "Tứ Trụ Bát Tự Manh Phái",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "Nguồn UD: cách viết đang dùng trong ứng dụng Bát Tự v121 của Kendy. 'Đăng thế / Đảng Thế' giữ cả hai cách viết vì đang CHỜ KENDY XÁC NHẬN. Từ điển chỉ phục vụ chính tả phụ đề, không mang nội dung lý pháp.",
+ "goi_y_whisper": [
+  "Bát Tự",
+  "Tứ Trụ",
+  "Manh Phái",
+  "Thể Dụng",
+  "Tố Công",
+  "Hư Thực",
+  "Đảng Thế",
+  "Nhật Chủ",
+  "Thất Sát",
+  "Thương Quan",
+  "Kiếp Tài",
+  "Đại vận",
+  "Lưu niên",
+  "Ứng kỳ",
+  "Tỵ",
+  "Mão",
+  "Dậu"
+ ],
+ "muc": [
+  {
+   "chuan": "Giáp",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý",
+   "nhom": "Thiên Can",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tý",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Sửu",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Dần",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mão",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thìn",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tỵ",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ngọ",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mùi",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thân",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Dậu",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tuất",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Hợi",
+   "nhom": "Địa Chi",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Tý",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Sửu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Dần",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Mão",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Thìn",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Tỵ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Ngọ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Mùi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Thân",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Dậu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Tuất",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Hợi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Tý",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Sửu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Dần",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Mão",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Thìn",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Tỵ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Ngọ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Mùi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Thân",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Dậu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Tuất",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Hợi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Tý",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Sửu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Dần",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Mão",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Thìn",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Tỵ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Ngọ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Mùi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Thân",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Dậu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Tuất",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Hợi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Tý",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Sửu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Dần",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Mão",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Thìn",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Tỵ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Ngọ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Mùi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Thân",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Dậu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Tuất",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Hợi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Tý",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Sửu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Giáp Dần",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ất Mão",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Bính Thìn",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đinh Tỵ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mậu Ngọ",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kỷ Mùi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Canh Thân",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân Dậu",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhâm Tuất",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quý Hợi",
+   "nhom": "Lục Thập Hoa Giáp",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mộc",
+   "nhom": "Ngũ Hành",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Hỏa",
+   "nhom": "Ngũ Hành",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thổ",
+   "nhom": "Ngũ Hành",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kim",
+   "nhom": "Ngũ Hành",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thủy",
+   "nhom": "Ngũ Hành",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tỷ Kiên",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Kiếp Tài",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thực Thần",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thương Quan",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thiên Tài",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chính Tài",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thất Sát",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chính Quan",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thiên Ấn",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chính Ấn",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tỷ Kiếp",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thực Thương",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tài Tinh",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Quan Sát",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ấn Tinh",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhật Chủ",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nhật Can",
+   "nhom": "Thập Thần",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tàng can",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chính khí",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Trung khí",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Dư khí",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Trụ Năm",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Trụ Tháng",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Trụ Ngày",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Trụ Giờ",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Cung vị",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Môn hộ",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chủ vị",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tân vị",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nạp âm",
+   "nhom": "Tàng can / trụ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thiên Can Ngũ Hợp",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lục Hợp",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tam Hợp",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tam Hội",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lục Xung",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tương Hình",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tự Hình",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lục Hại",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lục Phá",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mộ",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Khố",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Mộ Khố",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lộc",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Dương Nhận",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Không vong",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Phục ngâm",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Phản ngâm",
+   "nhom": "Quan hệ",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Manh Phái",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thể – Dụng",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thể Dụng",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tố Công",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Hư – Thực",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Hư Thực",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Chủ – Khách",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đảng Thế",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đăng thế",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Khóa Công",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Công Thần",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Công Xưởng",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Tượng pháp",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Phá công",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lộc Thần",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Nguyên Thần",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đại vận",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lưu niên",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Lưu nguyệt",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Ứng kỳ",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thế trận",
+   "nhom": "Lý pháp Manh Phái",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Thiên Ất Quý Nhân",
+   "nhom": "Thần sát",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Văn Xương",
+   "nhom": "Thần sát",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Đào Hoa",
+   "nhom": "Thần sát",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Dịch Mã",
+   "nhom": "Thần sát",
+   "nguon": "UD"
+  },
+  {
+   "chuan": "Hoa Cái",
+   "nhom": "Thần sát",
+   "nguon": "UD"
+  }
+ ]
+}

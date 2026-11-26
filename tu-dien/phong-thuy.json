@@ -1,0 +1,492 @@
+{
+ "linh_vuc": "phong-thuy",
+ "ten": "Phong Thủy",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "",
+ "goi_y_whisper": [
+  "Phong Thủy",
+  "Bát Trạch",
+  "Huyền Không Phi Tinh",
+  "Ngũ Hoàng",
+  "Nhị Hắc",
+  "Sinh Khí",
+  "Thiên Y",
+  "Diên Niên",
+  "Tuyệt Mệnh",
+  "Ngũ Quỷ",
+  "Thanh Long",
+  "Bạch Hổ",
+  "Minh Đường",
+  "tọa",
+  "hướng",
+  "Tam Sát"
+ ],
+ "muc": [
+  {
+   "chuan": "sơn Nhâm",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Nhâm",
+    "hướng Nhâm"
+   ]
+  },
+  {
+   "chuan": "sơn Tý",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Tý",
+    "hướng Tý"
+   ]
+  },
+  {
+   "chuan": "sơn Quý",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Quý",
+    "hướng Quý"
+   ]
+  },
+  {
+   "chuan": "sơn Sửu",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Sửu",
+    "hướng Sửu"
+   ]
+  },
+  {
+   "chuan": "sơn Cấn",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Cấn",
+    "hướng Cấn"
+   ]
+  },
+  {
+   "chuan": "sơn Dần",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Dần",
+    "hướng Dần"
+   ]
+  },
+  {
+   "chuan": "sơn Giáp",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Giáp",
+    "hướng Giáp"
+   ]
+  },
+  {
+   "chuan": "sơn Mão",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Mão",
+    "hướng Mão"
+   ]
+  },
+  {
+   "chuan": "sơn Ất",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Ất",
+    "hướng Ất"
+   ]
+  },
+  {
+   "chuan": "sơn Thìn",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Thìn",
+    "hướng Thìn"
+   ]
+  },
+  {
+   "chuan": "sơn Tốn",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Tốn",
+    "hướng Tốn"
+   ]
+  },
+  {
+   "chuan": "sơn Tỵ",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Tỵ",
+    "hướng Tỵ"
+   ]
+  },
+  {
+   "chuan": "sơn Bính",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Bính",
+    "hướng Bính"
+   ]
+  },
+  {
+   "chuan": "sơn Ngọ",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Ngọ",
+    "hướng Ngọ"
+   ]
+  },
+  {
+   "chuan": "sơn Đinh",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Đinh",
+    "hướng Đinh"
+   ]
+  },
+  {
+   "chuan": "sơn Mùi",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Mùi",
+    "hướng Mùi"
+   ]
+  },
+  {
+   "chuan": "sơn Khôn",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Khôn",
+    "hướng Khôn"
+   ]
+  },
+  {
+   "chuan": "sơn Thân",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Thân",
+    "hướng Thân"
+   ]
+  },
+  {
+   "chuan": "sơn Canh",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Canh",
+    "hướng Canh"
+   ]
+  },
+  {
+   "chuan": "sơn Dậu",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Dậu",
+    "hướng Dậu"
+   ]
+  },
+  {
+   "chuan": "sơn Tân",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Tân",
+    "hướng Tân"
+   ]
+  },
+  {
+   "chuan": "sơn Tuất",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Tuất",
+    "hướng Tuất"
+   ]
+  },
+  {
+   "chuan": "sơn Càn",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Càn",
+    "hướng Càn"
+   ]
+  },
+  {
+   "chuan": "sơn Hợi",
+   "nhom": "24 sơn",
+   "nguon": "C",
+   "khac": [
+    "tọa Hợi",
+    "hướng Hợi"
+   ]
+  },
+  {
+   "chuan": "Bát Trạch",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đông Tứ Trạch",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tây Tứ Trạch",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đông Tứ Mệnh",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tây Tứ Mệnh",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sinh Khí",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Y",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Diên Niên",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phục Vị",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tuyệt Mệnh",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngũ Quỷ",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Sát",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Họa Hại",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "cung Phi",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "quái số",
+   "nhom": "Bát Trạch",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Huyền Không Phi Tinh",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Cửu Tinh",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nhất Bạch",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Nhị Hắc",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tam Bích",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tứ Lục",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ngũ Hoàng",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Bạch",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thất Xích",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bát Bạch",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Cửu Tử",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "vận 9",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hạ Nguyên",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "sơn tinh",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "hướng tinh",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "vượng sơn vượng hướng",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "thượng sơn hạ thủy",
+   "nhom": "Huyền Không",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thanh Long",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Bạch Hổ",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Chu Tước",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Huyền Vũ",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Minh Đường",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Long Mạch",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Huyệt",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "La Kinh",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "La Bàn",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "tọa sơn",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "lập hướng",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tam Sát",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thái Tuế",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tuế Phá",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Thập Tứ Quái",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "kích hoạt",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "hóa giải",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "linh vật",
+   "nhom": "Loan đầu / thuật ngữ",
+   "nguon": "C"
+  }
+ ]
+}

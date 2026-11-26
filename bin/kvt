@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Trình chạy kvt: dùng môi trường Python riêng của bộ công cụ, không ảnh hưởng hệ thống.
+DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export XDG_CACHE_HOME="$DIR/.cache"
+exec "$DIR/.venv/bin/python" "$DIR/kvt/kvt.py" "$@"

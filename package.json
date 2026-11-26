@@ -1,0 +1,16 @@
+{
+  "name": "kendy-video-toolkit",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bộ công cụ dựng video Tarot dọc 9:16 – độc lập, không liên quan ứng dụng Bát Tự",
+  "type": "module",
+  "dependencies": {
+    "@remotion/bundler": "4.0.542",
+    "@remotion/cli": "4.0.542",
+    "@remotion/renderer": "4.0.542",
+    "hyperframes": "0.9.27",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.542"
+  }
+}

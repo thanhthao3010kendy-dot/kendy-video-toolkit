@@ -1,0 +1,499 @@
+{
+ "linh_vuc": "kinh-dich",
+ "ten": "Kinh Dịch",
+ "trang_thai": "Chờ Kendy xác nhận cách viết",
+ "ghi_chu": "",
+ "goi_y_whisper": [
+  "Kinh Dịch",
+  "Bát Quái",
+  "quẻ",
+  "hào động",
+  "Thuần Càn",
+  "Thuần Khôn",
+  "Địa Thiên Thái",
+  "Thiên Địa Bĩ",
+  "Thủy Hỏa Ký Tế",
+  "Hỏa Thủy Vị Tế",
+  "Mai Hoa Dịch Số",
+  "Lục Hào",
+  "Hà Đồ",
+  "Lạc Thư"
+ ],
+ "muc": [
+  {
+   "chuan": "Càn",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Đoài",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Ly",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Chấn",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tốn",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Khảm",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Cấn",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Khôn",
+   "nhom": "Bát Quái",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Càn",
+   "nhom": "Quẻ 1",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Khôn",
+   "nhom": "Quẻ 2",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Lôi Truân",
+   "nhom": "Quẻ 3",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Thủy Mông",
+   "nhom": "Quẻ 4",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Thiên Nhu",
+   "nhom": "Quẻ 5",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Thủy Tụng",
+   "nhom": "Quẻ 6",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Thủy Sư",
+   "nhom": "Quẻ 7",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Địa Tỷ",
+   "nhom": "Quẻ 8",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Thiên Tiểu Súc",
+   "nhom": "Quẻ 9",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Trạch Lý",
+   "nhom": "Quẻ 10",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Thiên Thái",
+   "nhom": "Quẻ 11",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Địa Bĩ",
+   "nhom": "Quẻ 12",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Hỏa Đồng Nhân",
+   "nhom": "Quẻ 13",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Thiên Đại Hữu",
+   "nhom": "Quẻ 14",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Sơn Khiêm",
+   "nhom": "Quẻ 15",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Địa Dự",
+   "nhom": "Quẻ 16",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Lôi Tùy",
+   "nhom": "Quẻ 17",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Phong Cổ",
+   "nhom": "Quẻ 18",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Trạch Lâm",
+   "nhom": "Quẻ 19",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Địa Quán",
+   "nhom": "Quẻ 20",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Lôi Phệ Hạp",
+   "nhom": "Quẻ 21",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Hỏa Bí",
+   "nhom": "Quẻ 22",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Địa Bác",
+   "nhom": "Quẻ 23",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Lôi Phục",
+   "nhom": "Quẻ 24",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Lôi Vô Vọng",
+   "nhom": "Quẻ 25",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Thiên Đại Súc",
+   "nhom": "Quẻ 26",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Lôi Di",
+   "nhom": "Quẻ 27",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Phong Đại Quá",
+   "nhom": "Quẻ 28",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Khảm",
+   "nhom": "Quẻ 29",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Ly",
+   "nhom": "Quẻ 30",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Sơn Hàm",
+   "nhom": "Quẻ 31",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Phong Hằng",
+   "nhom": "Quẻ 32",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Sơn Độn",
+   "nhom": "Quẻ 33",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Thiên Đại Tráng",
+   "nhom": "Quẻ 34",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Địa Tấn",
+   "nhom": "Quẻ 35",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Hỏa Minh Di",
+   "nhom": "Quẻ 36",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Hỏa Gia Nhân",
+   "nhom": "Quẻ 37",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Trạch Khuê",
+   "nhom": "Quẻ 38",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Sơn Kiển",
+   "nhom": "Quẻ 39",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Thủy Giải",
+   "nhom": "Quẻ 40",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Sơn Trạch Tổn",
+   "nhom": "Quẻ 41",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Lôi Ích",
+   "nhom": "Quẻ 42",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Thiên Quải",
+   "nhom": "Quẻ 43",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thiên Phong Cấu",
+   "nhom": "Quẻ 44",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Địa Tụy",
+   "nhom": "Quẻ 45",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Địa Phong Thăng",
+   "nhom": "Quẻ 46",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Thủy Khốn",
+   "nhom": "Quẻ 47",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Phong Tỉnh",
+   "nhom": "Quẻ 48",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Trạch Hỏa Cách",
+   "nhom": "Quẻ 49",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Phong Đỉnh",
+   "nhom": "Quẻ 50",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Chấn",
+   "nhom": "Quẻ 51",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Cấn",
+   "nhom": "Quẻ 52",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Sơn Tiệm",
+   "nhom": "Quẻ 53",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Trạch Quy Muội",
+   "nhom": "Quẻ 54",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Hỏa Phong",
+   "nhom": "Quẻ 55",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Sơn Lữ",
+   "nhom": "Quẻ 56",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Tốn",
+   "nhom": "Quẻ 57",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thuần Đoài",
+   "nhom": "Quẻ 58",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Thủy Hoán",
+   "nhom": "Quẻ 59",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Trạch Tiết",
+   "nhom": "Quẻ 60",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Phong Trạch Trung Phu",
+   "nhom": "Quẻ 61",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lôi Sơn Tiểu Quá",
+   "nhom": "Quẻ 62",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thủy Hỏa Ký Tế",
+   "nhom": "Quẻ 63",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hỏa Thủy Vị Tế",
+   "nhom": "Quẻ 64",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Kinh Dịch",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Chu Dịch",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hà Đồ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lạc Thư",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tiên Thiên Bát Quái",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hậu Thiên Bát Quái",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "quẻ Chủ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "quẻ Hỗ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "quẻ Biến",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "hào động",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thoán từ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Hào từ",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thập Dực",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Hào",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Mai Hoa Dịch Số",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Dụng thần",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thế ứng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Thân",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lục Thú",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "âm dương",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Thái Cực",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Lưỡng Nghi",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  },
+  {
+   "chuan": "Tứ Tượng",
+   "nhom": "thuật ngữ",
+   "nguon": "C"
+  }
+ ]
+}
