@@ -8,6 +8,13 @@ description: Bộ định tuyến dựng video dọc 9:16 (1080×1920) cho Kendy
 Mọi lệnh chạy ở thư mục gốc kho `kendy-video-toolkit` bằng `bin/kvt <lệnh>`. Chạy trên máy, miễn phí.
 Chưa cài: `./cai-dat.sh` (xem `CAI_DAT.md`).
 
+## Bước 0a – Kiểm tra môi trường (mỗi phiên mới)
+`bin/kvt moi-truong` (không mạng: `KVT_NGOAI_TUYEN=1 bin/kvt moi-truong --khong-thu-mang`) → bảng chức năng dùng được.
+- Không có Whisper → phụ đề từ lời gốc (`loi_goc`, mốc ƯỚC LƯỢNG) hoặc SRT có sẵn (`phu_de_sua`).
+- Không có OpenCV → không tránh mặt (vẫn tránh vùng lá bài). Không có Node → bỏ intro/outro.
+- Giới hạn thời gian mỗi lần chạy (ChatGPT) → `bin/kvt --gioi-han-giay 50 dung du-an.json`, `"xuat": {"chia_doan": 8}`;
+  mã thoát 3 = đã lưu điểm dừng, chạy lại ĐÚNG lệnh đó cho tới mã 0. Không cài lại môi trường giữa các lần.
+
 ## Bước 0 – Nhận diện đầu vào (tự động)
 | Kendy đưa | Nhận biết | Lối đi |
 |---|---|---|
@@ -39,7 +46,9 @@ Một chức năng riêng lẻ → gọi đúng lệnh đó. Nhiều chức năn
   không còn chỗ → chữ thay chỗ phụ đề vài giây. Kết quả ghi ở `*.bo-cuc.json` (xem cảnh báo).
 - Motion: Remotion cho intro / thẻ lá bài (React); HyperFrames cho outro / CTA thương hiệu (HTML).
   Ghép chữ điểm nhấn trực tiếp bằng FFmpeg (nhẹ, nhanh) khi chỉ cần một dòng chữ.
-- Phụ đề: Whisper `turbo` (chính xác) cho bản đăng; `small` chỉ để xem nhanh.
+- Phụ đề: Whisper `turbo` (chính xác) cho bản đăng; `small` chỉ để xem nhanh; không có Whisper → lời gốc / SRT.
+- Cắt lặng giữ lại lúc tay lật / xào / đặt bài (dò chuyển động); phụ đề tự lên trên khi vị trí dưới đè mặt / lá bài.
+- Màu `kendy-tu-dong`: tự cân bằng trắng (giảm ám vàng) và độ sáng theo từng video, giữ màu da.
 
 ## Quy tắc bắt buộc
 1. Không phát sinh chi phí: không `hyperframes publish/billing/templates/reverse/auth`, không API trả phí.

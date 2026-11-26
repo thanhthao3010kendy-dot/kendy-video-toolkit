@@ -17,6 +17,11 @@ bin/kvt kiem-tra RA.mp4
 - AAC 192 kb/s, 48 kHz, stereo, −14 LUFS. `+faststart` để phát ngay trên điện thoại.
 - Dung lượng ~9–12 MB/phút·10 → 1 phút ≈ 60–75 MB. Muốn nhẹ hơn: `--crf 20`.
 
+## Môi trường giới hạn thời gian (ChatGPT…)
+`bin/kvt --gioi-han-giay 50 xuat VAO.mp4 -o RA.mp4 --chia-doan 8 --preset veryfast ...` – xuất từng đoạn 8 s, lưu
+trong `RA.phan/`; hết giờ thì dừng (mã 3), chạy lại cùng lệnh để làm tiếp. Đã đối chiếu: giống bản xuất một lần
+(PSNR 46 dB, lệch tiếng 0 ms). Có intro/outro: nối cắt thẳng (không mờ chồng) để khỏi mã hoá lại.
+
 ## Vùng an toàn (TikTok / Reels / Shorts)
 Trên 230 px, dưới 420 px, phải 150 px dành cho giao diện ứng dụng. Phụ đề nằm trong dải 1290–1510 px, lề phải 150 px.
 Lá bài, điểm nhấn, CTA tự đặt trong vùng an toàn (xem `kvt/bo_cuc.py`).

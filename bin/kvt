@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-# Trình chạy kvt: dùng môi trường Python riêng của bộ công cụ, không ảnh hưởng hệ thống.
+# Trình chạy kvt. Ưu tiên môi trường Python riêng (.venv); không có thì dùng python3 của máy
+# (ví dụ môi trường ChatGPT đã có sẵn numpy / OpenCV) – không bắt buộc cài lại.
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-export XDG_CACHE_HOME="$DIR/.cache"
-exec "$DIR/.venv/bin/python" "$DIR/kvt/kvt.py" "$@"
+export XDG_CACHE_HOME="${XDG_CACHE_HOME:-$DIR/.cache}"
+PY="$DIR/.venv/bin/python"
+[ -x "$PY" ] || PY="$(command -v python3)"
+exec "$PY" "$DIR/kvt/kvt.py" "$@"

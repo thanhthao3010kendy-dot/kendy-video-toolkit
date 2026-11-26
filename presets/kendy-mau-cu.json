@@ -1,0 +1,52 @@
+{
+  "_mo_ta": "Phong cách Kendy với MÀU CŨ của v1.0.0 (màu \"kendy\": tăng sáng + tông xanh cổ vịt/kem cố định, không tự cân bằng trắng). Giữ để so sánh với phong cách \"kendy\" (màu kendy-tu-dong). Các mục khác giống phong cách kendy.",
+  "cat_lang": true,
+  "cat_lang_tham_so": {
+    "che_do": "auto",
+    "nguong": "auto",
+    "lang_toi_thieu": 0.6,
+    "dem": 0.2,
+    "chuyen_mo": 0.1,
+    "giu_dong_tac": true
+  },
+  "phu_de": true,
+  "phu_de_tham_so": {
+    "mo_hinh": "turbo",
+    "ngon_ngu": "vi",
+    "kieu": "kendy",
+    "nhan_tu": true,
+    "ky_tu_toi_da": 28,
+    "giay_toi_da": 3.2,
+    "linh_vuc": [
+      "tarot"
+    ]
+  },
+  "lam_sach_giong": true,
+  "ha_nhac": true,
+  "muc_nhac_dB": -23,
+  "lufs": -14,
+  "chuyen_canh": 0.4,
+  "chuyen_dong_anh": true,
+  "intro": null,
+  "outro": null,
+  "cta": null,
+  "diem_nhan": [],
+  "la_bai": [],
+  "vung_tranh": [],
+  "xuat": {
+    "khung": "auto",
+    "tam_x": "auto",
+    "zoom": 1.0,
+    "mau": "kendy",
+    "net": "vua",
+    "khu_nhieu": true,
+    "co_la_bai": 0.36,
+    "vi_tri_la_bai": "auto",
+    "vien_la_bai": "#D8BE8C",
+    "crf": 18,
+    "preset": "slow",
+    "chia_doan": 0,
+    "phu_de_co_dinh": false
+  },
+  "phu_de_uoc_luong_cho_phep": false
+}

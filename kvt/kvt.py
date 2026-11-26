@@ -51,6 +51,19 @@ class KvtError(RuntimeError):
     pass
 
 
+class KvtTamDung(Exception):
+    """Hết thời gian cho phép của lượt chạy – kết quả dở dang đã lưu, chạy lại cùng lệnh để làm tiếp."""
+
+
+DEADLINE: float | None = None  # đặt bởi --gioi-han-giay hoặc biến KVT_GIOI_HAN_GIAY
+
+
+def check_deadline(what: str) -> None:
+    import time
+    if DEADLINE is not None and time.time() > DEADLINE:
+        raise KvtTamDung(f"Đã lưu điểm dừng trước bước: {what}")
+
+
 def log(msg: str) -> None:
     print(f"[kvt] {msg}", file=sys.stderr, flush=True)
 
@@ -237,6 +250,28 @@ def remap_words(segs_words: list[dict], keep: list[Seg], joins: list[float] | No
     return out
 
 
+def subtract_actions(sil: list[Seg], actions: list[tuple[float, float]], min_silence: float,
+                     pad: float = 0.25) -> list[Seg]:
+    """Bỏ khỏi danh sách khoảng lặng những lúc có động tác (đệm 0,25 s hai đầu)."""
+    out = []
+    for s in sil:
+        parts = [(s.start, s.end)]
+        for a0, a1 in actions:
+            a0, a1 = a0 - pad, a1 + pad
+            nxt = []
+            for p0, p1 in parts:
+                if a1 <= p0 or a0 >= p1:
+                    nxt.append((p0, p1))
+                    continue
+                if a0 > p0:
+                    nxt.append((p0, a0))
+                if a1 < p1:
+                    nxt.append((a1, p1))
+            parts = nxt
+        out += [Seg(p0, p1) for p0, p1 in parts if p1 - p0 >= min_silence]
+    return out
+
+
 def speech_segments(silences: list[Seg], total: float, pad: float, min_keep: float, fps: float) -> list[Seg]:
     keep: list[Seg] = []
     t = 0.0
@@ -288,12 +323,23 @@ def cmd_cat_lang(a: argparse.Namespace) -> dict:
         sil, threshold = detect_silence_auto(a.input, nguong, a.lang_toi_thieu)
     else:
         raise KvtError("--che-do phải là: am-luong | loi-noi")
+    actions = []
+    if stream(info, "video") and not getattr(a, "khong_giu_dong_tac", False):
+        # giữ lại lúc tay đang lật / xào / đặt bài dù không nói (chỉ cắt phần lặng mà hình đứng yên)
+        import phan_tich
+        frames, mfps = phan_tich.sample(a.input, fps=10.0, width=96, cache_dir=Path(a.output).parent / ".kvt-dem")
+        prof, thr = phan_tich.motion_profile(frames, mfps)
+        actions = phan_tich.action_intervals(prof, thr, mfps)
+        sil = subtract_actions(sil, actions, a.lang_toi_thieu)
+        if actions:
+            log(f"Giữ {len(actions)} đoạn có động tác (lật / xào / đặt bài) trong khoảng lặng: "
+                + ", ".join(f"{x:.1f}–{y:.1f}s" for x, y in actions[:8]) + (" …" if len(actions) > 8 else ""))
     segs = speech_segments(sil, total, a.dem, a.giu_toi_thieu, fps)
     if not segs:
         raise KvtError("Không tìm thấy đoạn có tiếng nói. Thử --nguong thấp hơn (ví dụ -50) hoặc --che-do loi-noi.")
     kept = sum(s.end - s.start for s in segs)
     log(f"Giữ {len(segs)} đoạn, {kept:.1f}s / {total:.1f}s (bỏ {total - kept:.1f}s khoảng lặng)")
-    report = {"nguon": str(a.input), "che_do": che_do, "nguong_dB": threshold, "tong_giay": round(total, 3),
+    report = {"nguon": str(a.input), "che_do": che_do, "dong_tac_giu_lai": [[round(x, 2), round(y, 2)] for x, y in actions], "nguong_dB": threshold, "tong_giay": round(total, 3),
               "giu_giay": round(kept, 3), "doan": [{"bat_dau": s.start, "ket_thuc": s.end} for s in segs]}
     if a.chi_xem:
         print(json.dumps(report, ensure_ascii=False, indent=2))
@@ -440,7 +486,40 @@ def is_hallucination(seg: dict) -> bool:
     return False
 
 
+WHISPER_FILES = {"turbo": "large-v3-turbo.pt", "large-v3-turbo": "large-v3-turbo.pt", "large-v3": "large-v3.pt",
+                 "medium": "medium.pt", "small": "small.pt", "base": "base.pt", "tiny": "tiny.pt"}
+
+
+def offline() -> bool:
+    """Chế độ không cần mạng: KVT_NGOAI_TUYEN=1 – không tải gì, chỉ dùng thứ đã có trên máy."""
+    return os.environ.get("KVT_NGOAI_TUYEN", "0") not in ("", "0", "false", "no")
+
+
+def whisper_status(model_name: str) -> str:
+    """'san-sang' | 'thieu-thu-vien' | 'thieu-mo-hinh' (chưa tải; tự tải khi có mạng)."""
+    try:
+        import importlib.util
+        if importlib.util.find_spec("whisper") is None or importlib.util.find_spec("torch") is None:
+            return "thieu-thu-vien"
+    except Exception:
+        return "thieu-thu-vien"
+    f = ROOT / ".cache" / "whisper" / WHISPER_FILES.get(model_name, f"{model_name}.pt")
+    return "san-sang" if f.is_file() else "thieu-mo-hinh"
+
+
+def whisper_usable(model_name: str) -> bool:
+    st = whisper_status(model_name)
+    return st == "san-sang" or (st == "thieu-mo-hinh" and not offline())
+
+
 def transcribe(src: str, model_name: str, language: str, prompt: str | None) -> list[dict]:
+    st = whisper_status(model_name)
+    if st == "thieu-thu-vien":
+        raise KvtError("Chưa có Whisper trong môi trường này. Dùng lời thoại gốc (--loi-goc) hoặc phụ đề có sẵn "
+                       "(--srt), hoặc cài đầy đủ bằng ./cai-dat.sh.")
+    if st == "thieu-mo-hinh" and offline():
+        raise KvtError(f"Chế độ không mạng: chưa có mô hình Whisper '{model_name}' trong .cache/whisper. "
+                       "Dùng --loi-goc / --srt, hoặc chép tệp mô hình vào đó.")
     import whisper  # type: ignore
     os.environ.setdefault("XDG_CACHE_HOME", str(ROOT / ".cache"))
     log(f"Đang tải mô hình Whisper '{model_name}' (lần đầu sẽ tải về máy, miễn phí)…")
@@ -615,16 +694,47 @@ def cmd_phu_de(a: argparse.Namespace) -> dict:
     prompt = None if a.khong_goi_y else (a.goi_y or (DEFAULT_PROMPT if a.ngon_ngu == "vi" else None))
     if linh_vuc and not a.khong_goi_y:
         prompt = tu_dien.whisper_prompt(linh_vuc, a.goi_y or "Kendy Huyền Học.")
+    loi_goc = getattr(a, "loi_goc", None)
+    srt_in = getattr(a, "srt", None)
+    nguon = "whisper"
     if getattr(a, "tu_json", None):
         segs = json.loads(Path(a.tu_json).read_text("utf-8"))
+        nguon = "tu-json"
         log(f"Dùng lời đã nhận dạng sẵn: {a.tu_json}")
-    else:
+    elif srt_in:
+        # phụ đề có sẵn: giữ nguyên chữ và mốc câu; mốc từng từ chia đều trong câu (để tô màu từ)
+        segs = []
+        for c in parse_srt(Path(srt_in)):
+            ws = c["text"].split()
+            step = (c["e"] - c["s"]) / max(1, len(ws))
+            segs.append({"s": c["s"], "e": c["e"], "text": c["text"],
+                         "words": [{"w": w, "s": round(c["s"] + i * step, 3), "e": round(c["s"] + (i + 1) * step, 3),
+                                    "p": 1.0} for i, w in enumerate(ws)]})
+        nguon = "srt"
+        log(f"Dùng phụ đề có sẵn: {srt_in} ({len(segs)} dòng)")
+    elif whisper_usable(a.mo_hinh):
         segs = transcribe(a.input, a.mo_hinh, a.ngon_ngu, prompt)
+    elif loi_goc:
+        info = probe(a.input)
+        sil, _ = detect_silence_auto(a.input, None, 0.35)
+        speech = [(x.start, x.end) for x in speech_segments(sil, duration_of(info), 0.05, 0.15, fps_of(info))]
+        segs = tu_dien.estimate_script_timing(Path(loi_goc).read_text("utf-8"), speech)
+        nguon = "loi-goc-uoc-luong"
+        log("Không có Whisper → rải LỜI GỐC theo các đoạn có tiếng nói (ƯỚC LƯỢNG, cần xem lại độ khớp).")
+    else:
+        raise KvtError("Không có Whisper (thiếu thư viện / mô hình / mạng). Cung cấp lời thoại gốc --loi-goc "
+                       "hoặc phụ đề có sẵn --srt để vẫn làm được phụ đề.")
+    if loi_goc and nguon in ("whisper", "tu-json"):
+        segs, rep_dc = tu_dien.align_script(segs, Path(loi_goc).read_text("utf-8"))
+        (out_dir / f"{stem}.doi-chieu.json").write_text(json.dumps(rep_dc, ensure_ascii=False, indent=1), "utf-8")
+        log(f"Phụ đề dùng đúng LỜI GỐC; khác so với nghe được {rep_dc['ty_le_khac']:.1%} → {stem}.doi-chieu.json")
+        nguon = "loi-goc-khop-whisper"
     (out_dir / f"{stem}.words.json").write_text(json.dumps(segs, ensure_ascii=False, indent=1), "utf-8")
     chunks = chunk_words(segs, a.ky_tu_toi_da, a.giay_toi_da)
     write_srt(chunks, out_dir / f"{stem}.srt")
-    write_ass(chunks, out_dir / f"{stem}.ass", a.kieu, karaoke=not a.khong_nhan_tu)
-    low = [w for s in segs for w in s["words"] if w["p"] < 0.4]
+    # mốc ước lượng → tắt tô màu từng từ (tránh tô lệch lời)
+    write_ass(chunks, out_dir / f"{stem}.ass", a.kieu, karaoke=not a.khong_nhan_tu and nguon not in ("srt", "loi-goc-uoc-luong"))
+    low = [w for s in segs for w in s["words"] if w["p"] < 0.4 and nguon == "whisper"]
     log(f"Đã tạo {len(chunks)} dòng phụ đề → {out_dir}/{stem}.srt / .ass / .words.json")
     if linh_vuc:
         gy = tu_dien.suggest(segs, linh_vuc)
@@ -633,7 +743,7 @@ def cmd_phu_de(a: argparse.Namespace) -> dict:
             "Kendy đánh dấu \"dong_y\": true rồi chạy 'kvt sua-phu-de')")
     if low:
         log(f"Có {len(low)} từ độ tin cậy thấp – nên đọc lại SRT, sửa tay rồi chạy 'srt2ass'.")
-    return {"dong": len(chunks), "tu_tin_cay_thap": len(low)}
+    return {"dong": len(chunks), "tu_tin_cay_thap": len(low), "nguon": nguon}
 
 
 def cmd_srt2ass(a: argparse.Namespace) -> None:
@@ -693,6 +803,17 @@ def build_audio(voice_src: str, out_wav: str, music: str | None, music_db: float
     else:
         stage_src, chain = voice_src, f"aresample=48000,{voice}"
     meas = loudnorm_measure(stage_src, chain, target, tp, lra)
+    try:
+        silent = float(meas["input_i"]) < -70
+    except ValueError:   # "-inf": hoàn toàn im lặng (ví dụ cảnh ảnh chưa có lời)
+        silent = True
+    if silent:
+        log("Âm thanh gần như im lặng – bỏ qua chuẩn hoá âm lượng.")
+        run(ffmpeg_base() + ["-i", stage_src, "-vn", "-af", f"{chain},aresample=48000",
+                             "-c:a", "pcm_s24le", "-ar", "48000", "-ac", "2", out_wav])
+        if music:
+            os.unlink(stage_src)
+        return {"do_vao_LUFS": meas["input_i"], "muc_tieu_LUFS": target, "im_lang": True}
     ln = (f"loudnorm=I={target}:TP={tp}:LRA={lra}:measured_I={meas['input_i']}:measured_TP={meas['input_tp']}:"
           f"measured_LRA={meas['input_lra']}:measured_thresh={meas['input_thresh']}:offset={meas['target_offset']}:"
           "linear=true")
@@ -723,6 +844,9 @@ GRADES = {
     # Kendy: sáng, trong, sắc; bóng tối ngả nhẹ xanh cổ vịt, vùng sáng ngả kem – rất nhẹ để giữ màu da và màu lá bài
     "kendy": "eq=brightness=0.035:contrast=1.05:saturation=1.04:gamma=0.96,"
              "colorbalance=rs=-0.02:gs=0.008:bs=0.015:rh=0.015:gh=0.006:bh=-0.012",
+    # Kendy tự động: cân bằng trắng + độ sáng ĐO theo từng video (giảm ám vàng), rồi tông Kendy rất nhẹ,
+    # KHÔNG làm ấm vùng sáng (tránh thêm vàng); bão hoà gần như giữ nguyên để da và lá bài tự nhiên.
+    "kendy-tu-dong": "eq=contrast=1.04:saturation=1.03,colorbalance=rs=-0.015:gs=0.005:bs=0.015",
 }
 
 SHARPEN = {
@@ -786,7 +910,8 @@ def frame_plan(info: dict, khung: str, tam_x, zoom: float, src: str, need_faces:
             "co_mat": bool(track)}
 
 
-def video_chain(plan: dict, grade: str, lut: str | None, sharpen: str, fps: float, denoise: bool) -> str:
+def video_chain(plan: dict, grade: str, lut: str | None, sharpen: str, fps: float, denoise: bool,
+                pre_grade: str = "") -> str:
     khung = plan["khung"]
     f = []
     if denoise:
@@ -806,6 +931,8 @@ def video_chain(plan: dict, grade: str, lut: str | None, sharpen: str, fps: floa
         f.append(f"scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=increase:flags=lanczos,crop={OUT_W}:{OUT_H}")
     if lut:
         f.append(f"lut3d=file='{ffpath(lut)}':interp=tetrahedral")
+    if pre_grade:
+        f.append(pre_grade)
     if GRADES.get(grade):
         f.append(GRADES[grade])
     if SHARPEN.get(sharpen):
@@ -884,6 +1011,56 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     path.write_text(head + "\n".join(rows) + "\n", "utf-8")
 
 
+SUB_POSITIONS = {
+    # tên: (khung kiểm tra trên khung xuất, thẻ ASS đặt vị trí)
+    "duoi": (bo_cuc.Box(110, 1290, 820, 220), r"{\an2\pos(520,1490)}"),
+    "tren-ban": (bo_cuc.Box(110, 1040, 820, 220), r"{\an2\pos(520,1240)}"),
+    "tren": (bo_cuc.Box(110, 250, 820, 220), r"{\an8\pos(520,260)}"),
+}
+
+
+def place_subtitles(ass_path: str, out: Path, faces, zones, frames, sfps, geo) -> tuple[str, dict]:
+    """Phụ đề tránh mặt (cấm) và vùng nhiều chi tiết – lá bài (nên tránh). Mặc định ở dưới; chỉ đổi chỗ khi
+    vị trí dưới chạm mặt / vùng Kendy khai báo, hoặc đè lá bài rõ rệt mà chỗ khác trống hơn nhiều."""
+    import phan_tich
+
+    def secs(t: str) -> float:
+        h, m, s_ = t.split(":")
+        return int(h) * 3600 + int(m) * 60 + float(s_)
+
+    rows, prev, moved = [], "duoi", {"duoi": 0, "tren-ban": 0, "tren": 0}
+    for line in Path(ass_path).read_text("utf-8").splitlines():
+        if line.startswith("Dialogue:") and ",Main," in line:
+            f = line.split(",", 9)
+            s0, e0 = secs(f[1]), secs(f[2])
+            hard = [b for b, zs, ze in zones if zs < e0 and s0 < ze]
+            hard_f, _ = bo_cuc.obstacles_in(faces, s0, e0, [], None, tranh_tay=False)
+            hard += hard_f
+            ok = {k: not any(box.hits(o) for o in hard) for k, (box, _) in SUB_POSITIONS.items()}
+            busy = {k: phan_tich.band_busy(frames, sfps, s0, e0, geo, (box.x, box.y, box.w, box.h))
+                    for k, (box, _) in SUB_POSITIONS.items()}
+            choice = "duoi"
+            if not ok["duoi"] or busy["duoi"] > 0.33:
+                alts = [k for k in ("tren-ban", "tren") if ok[k] and busy[k] < 0.75 * busy["duoi"]]
+                if prev in alts:           # giữ chỗ cũ nếu vẫn ổn → phụ đề không nhảy liên tục
+                    choice = prev
+                elif alts:
+                    choice = min(alts, key=lambda k: busy[k])
+                elif not ok["duoi"]:
+                    free = [k for k in ("tren-ban", "tren") if ok[k]]
+                    choice = free[0] if free else "duoi"
+            moved[choice] += 1
+            prev = choice
+            if choice != "duoi":
+                f[9] = SUB_POSITIONS[choice][1] + f[9]
+                line = ",".join(f)
+        rows.append(line)
+    out.write_text("\n".join(rows) + "\n", "utf-8")
+    if moved["tren-ban"] or moved["tren"]:
+        log(f"Phụ đề đổi chỗ để không che mặt / lá bài: {moved['tren-ban']} dòng lên cao hơn, {moved['tren']} dòng lên trên")
+    return str(out), moved
+
+
 def hide_subtitles(ass_path: str, windows: list[tuple[float, float]], out: Path) -> str:
     """Ẩn dòng phụ đề trùng thời gian với CTA / điểm nhấn đặt ở dải phụ đề (dòng chỉ chạm mép thì cắt ngắn)."""
     def secs(t: str) -> float:
@@ -930,13 +1107,22 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
             zones.append((bo_cuc.Box(z["x"], z["y"], z["rong"], z["cao"]), z["bat_dau"], z["ket_thuc"]))
     cta = getattr(a, "cta", None)
     need_faces = bool(cards or notes or cta) and not getattr(a, "khong_tranh_mat", False)
-    plan = frame_plan(info, a.khung, a.tam_x, a.zoom, a.input, need_faces)
-    chain = video_chain(plan, a.mau, a.lut, a.net, fps, not a.khong_khu_nhieu)
+    plan = frame_plan(info, a.khung, a.tam_x, a.zoom, a.input, need_faces or bool(a.phu_de))
     faces = plan["faces"]
+    import phan_tich
+    cache = Path(a.output).resolve().parent / ".kvt-dem"
+    frames, sfps = phan_tich.sample(a.input, fps=2.0, width=160, cache_dir=cache)
+    pre, color = "", None
+    if a.mau == "kendy-tu-dong":
+        color = phan_tich.color_correction(frames)
+        pre = phan_tich.correction_filter(color)
+        log(f"Cân bằng trắng tự động: R×{color['he_so_mau']['r']:.3f} G×{color['he_so_mau']['g']:.3f} "
+            f"B×{color['he_so_mau']['b']:.3f}, gamma {color['gamma']} (độ chói trung vị {color['do_choi_trung_vi']})")
+    chain = video_chain(plan, a.mau, a.lut, a.net, fps, not a.khong_khu_nhieu, pre)
 
     placed: list[tuple[bo_cuc.Box, float, float]] = []
     layout_log = {"khung": plan["khung"], "tam_x": round(plan["tam_x"], 3), "co_nhan_dien_mat": plan["co_mat"],
-                  "muc": []}
+                  "chinh_mau": color, "muc": []}
 
     def obstacles(s: float, e: float, with_subs: bool) -> tuple[list[bo_cuc.Box], list[bo_cuc.Box]]:
         hard = [b for b, zs, ze in zones if zs < e and s < ze]
@@ -1033,6 +1219,12 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
             sub = str(tmp_ass)
         if hide_windows:
             sub = hide_subtitles(sub, hide_windows, tmp_dir / "sub-an.ass")
+        if not getattr(a, "phu_de_co_dinh", False):
+            geo = bo_cuc.geometry(plan["khung"], plan["w"], plan["h"], plan["crop"])
+            geo.src_w = plan["w"]
+            hard_z = [(b, zs, ze) for b, zs, ze in zones]
+            sub, moved = place_subtitles(sub, tmp_dir / "sub-vitri.ass", faces, hard_z, frames, sfps, geo)
+            layout_log["phu_de_doi_cho"] = moved
         graph.append(f"[{last}]subtitles=filename='{ffpath(sub)}':fontsdir='{ffpath(FONTS_DIR)}'[subbed]")
         last = "subbed"
     if ov_items:
@@ -1042,33 +1234,36 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
         last = "olay"
     graph.append(f"[{last}]format=yuv420p[vout]")
 
-    audio_map = []
-    if stream(info, "audio"):
-        wav = str(tmp_dir / "mix.wav")
-        build_audio(a.input, wav, a.nhac, a.muc_nhac, not a.khong_ha_nhac, a.lufs,
-                    clean=not a.khong_lam_sach, duration=dur)
-        inputs += ["-i", wav]
-        audio_map = ["-map", f"{idx}:a", "-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
-
-    body = tmp_dir / "body.mp4"
     out = Path(a.output)
-    target = body if (a.intro or a.outro) else out
     enc = ["-c:v", "libx264", "-preset", a.preset, "-crf", str(a.crf), "-profile:v", "high", "-level:v", "4.2",
            "-pix_fmt", "yuv420p", "-g", str(int(round(fps * 2))), "-bf", "2",
            "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709", "-color_range", "tv",
            "-fps_mode", "cfr", "-r", f"{fps:.6f}", "-movflags", "+faststart"]
-    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as fh:
-        fh.write(";\n".join(graph))
-        script = fh.name
-    try:
-        log(f"Đang dựng hình 9:16 ({fps:g} khung/giây, {dur:.1f}s, khung {plan['khung']})…")
-        run(ffmpeg_base() + inputs + ["-filter_complex_script", script, "-map", "[vout]"] + audio_map + enc +
-            ["-t", f"{dur:.3f}", str(target)])
-    finally:
-        os.unlink(script)
-    if a.intro or a.outro:
-        join_clips([p for p in (a.intro, str(body), a.outro) if p], out, fps, enc,
-                   xf=float(getattr(a, "chuyen_canh", 0.4) or 0.4))
+    chunk = float(getattr(a, "chia_doan", 0) or 0)
+    if chunk > 0:
+        render_chunked(a, info, inputs, graph, last, enc, fps, dur, out)
+    else:
+        audio_map = []
+        if stream(info, "audio"):
+            wav = str(tmp_dir / "mix.wav")
+            build_audio(a.input, wav, a.nhac, a.muc_nhac, not a.khong_ha_nhac, a.lufs,
+                        clean=not a.khong_lam_sach, duration=dur)
+            inputs += ["-i", wav]
+            audio_map = ["-map", f"{idx}:a", "-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
+        body = tmp_dir / "body.mp4"
+        target = body if (a.intro or a.outro) else out
+        with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as fh:
+            fh.write(";\n".join(graph))
+            script = fh.name
+        try:
+            log(f"Đang dựng hình 9:16 ({fps:g} khung/giây, {dur:.1f}s, khung {plan['khung']})…")
+            run(ffmpeg_base() + inputs + ["-filter_complex_script", script, "-map", "[vout]"] + audio_map + enc +
+                ["-t", f"{dur:.3f}", str(target)])
+        finally:
+            os.unlink(script)
+        if a.intro or a.outro:
+            join_clips([p for p in (a.intro, str(body), a.outro) if p], out, fps, enc,
+                       xf=float(getattr(a, "chuyen_canh", 0.4) or 0.4))
     shutil.rmtree(tmp_dir, ignore_errors=True)
     out.with_suffix(".bo-cuc.json").write_text(json.dumps(layout_log, ensure_ascii=False, indent=1), "utf-8")
     bad = [m for m in layout_log["muc"] if not m.get("khong_che", True)]
@@ -1076,6 +1271,98 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
         log(f"CẢNH BÁO: {len(bad)} mục có thể chồng lên mặt / phụ đề – xem {out.with_suffix('.bo-cuc.json').name}")
     log(f"Đã xuất: {out}")
     return cmd_kiem_tra(argparse.Namespace(input=str(out), lufs=a.lufs, in_json=False))
+
+
+def render_chunked(a, info, inputs: list[str], graph: list[str], last: str, enc: list[str], fps: float, dur: float,
+                   out: Path) -> None:
+    """Xuất theo từng đoạn ngắn, lưu điểm dừng trong thư mục <tên>.phan/ – chạy lại cùng lệnh sẽ làm tiếp.
+
+    Mỗi đoạn tua thẳng tới mốc bắt đầu (giữ nguyên mốc thời gian gốc nên lá bài, chữ, phụ đề đúng giờ),
+    chỉ mã hoá hình; âm thanh làm một lần cho cả bài rồi ghép ở bước cuối (không tách tiếng ở chỗ nối)."""
+    import hashlib
+    pdir = out.with_suffix(".phan")
+    pdir.mkdir(parents=True, exist_ok=True)
+    ff_graph = graph[:-1] + [f"[{last}]format=yuv420p,setpts=PTS-STARTPTS[vout]"]
+    venc = [x for x in enc if x != "+faststart" and x != "-movflags"]
+    text = ";\n".join(ff_graph)
+    # chữ ký: đổi tham số / phụ đề → làm lại từ đầu (bỏ đường dẫn tạm khỏi chữ ký)
+    sig_src = re.sub(r"/tmp[^':]*?kvt-[^/]+/", "", text) + " ".join(inputs[2:]) + " ".join(venc) + f"{dur:.3f}"
+    for p in re.findall(r"filename='([^']+)'", text):
+        try:
+            sig_src += Path(p.replace("\\:", ":")).read_text("utf-8")
+        except OSError:
+            pass
+    sig = hashlib.sha1(sig_src.encode()).hexdigest()
+    kf = pdir / "chu-ky.txt"
+    if not kf.is_file() or kf.read_text().strip() != sig:
+        for f in pdir.glob("*"):
+            f.unlink()
+        kf.write_text(sig)
+    total = int(round(dur * fps))
+    per = max(1, int(round(float(a.chia_doan) * fps)))
+    n = (total + per - 1) // per
+    script = pdir / "do-thi.txt"
+    script.write_text(text, "utf-8")
+    log(f"Xuất chia {n} đoạn × {a.chia_doan:g}s (điểm dừng trong {pdir.name}/)")
+    for i in range(n):
+        seg = pdir / f"doan{i:03d}.mp4"
+        if (pdir / f"doan{i:03d}.xong").is_file() and seg.is_file():
+            continue
+        check_deadline(f"đoạn {i + 1}/{n}")
+        start = i * per / fps
+        frames_i = min(per, total - i * per)
+        main_in = ["-ss", f"{start:.6f}", "-i", inputs[1]] if start > 0 else ["-i", inputs[1]]
+        cmd = ffmpeg_base() + ["-copyts"] + main_in + inputs[2:] + ["-filter_complex_script", str(script),
+                                                                  "-map", "[vout]", "-an"] + venc + \
+            ["-frames:v", str(frames_i), str(seg)]
+        run(cmd)
+        (pdir / f"doan{i:03d}.xong").write_text("ok")
+        log(f"  xong đoạn {i + 1}/{n}")
+    check_deadline("ghép âm thanh")
+    wav = pdir / "am-thanh.wav"
+    if not wav.is_file() and stream(info, "audio"):
+        build_audio(a.input, str(wav) + ".tmp.wav", a.nhac, a.muc_nhac, not a.khong_ha_nhac, a.lufs,
+                    clean=not a.khong_lam_sach, duration=dur)
+        os.replace(str(wav) + ".tmp.wav", wav)
+    vlist, alist = [], []
+    for key, clip in (("intro", a.intro), ("outro", a.outro)):
+        if clip:   # intro/outro: chuẩn hoá cùng thông số để nối không mã hoá lại (cắt thẳng, không mờ chồng)
+            nv, na = pdir / f"{key}-hinh.mp4", pdir / f"{key}-tieng.wav"
+            if not nv.is_file():
+                check_deadline(key)
+                ci = probe(clip)
+                d = duration_of(ci)
+                run(ffmpeg_base() + ["-i", clip, "-vf", f"scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=decrease:"
+                                     f"flags=lanczos,pad={OUT_W}:{OUT_H}:(ow-iw)/2:(oh-ih)/2,setsar=1,fps={fps:.6f}",
+                                     "-an"] + venc + ["-t", f"{d:.3f}", str(nv)])
+                if stream(ci, "audio"):
+                    run(ffmpeg_base() + ["-i", clip, "-vn", "-af", f"aresample=48000,apad,atrim=end={d:.3f}",
+                                         "-ac", "2", "-c:a", "pcm_s24le", str(na)])
+                else:
+                    run(ffmpeg_base() + ["-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo", "-t", f"{d:.3f}",
+                                         "-c:a", "pcm_s24le", str(na)])
+    segs = sorted(pdir.glob("doan*.mp4"))
+    if a.intro:
+        vlist.append(pdir / "intro-hinh.mp4")
+        alist.append(pdir / "intro-tieng.wav")
+    vlist += segs
+    if wav.is_file():
+        alist.append(wav)
+    if a.outro:
+        vlist.append(pdir / "outro-hinh.mp4")
+        alist.append(pdir / "outro-tieng.wav")
+    lst = pdir / "danh-sach.txt"
+    lst.write_text("".join(f"file '{p.resolve()}'\n" for p in vlist))
+    cmd = ffmpeg_base() + ["-f", "concat", "-safe", "0", "-i", str(lst)]
+    for w_ in alist:
+        cmd += ["-i", str(w_)]
+    if alist:
+        amap = "".join(f"[{k + 1}:a]" for k in range(len(alist)))
+        cmd += ["-filter_complex", f"{amap}concat=n={len(alist)}:v=0:a=1[a]", "-map", "0:v", "-map", "[a]",
+                "-c:a", "aac", "-b:a", "192k", "-ar", "48000"]
+    cmd += ["-c:v", "copy", "-movflags", "+faststart", str(out)]
+    run(cmd)
+    log(f"Đã ghép {len(segs)} đoạn hình + âm thanh → {out.name}")
 
 
 def join_clips(clips: list[str], out: Path, fps: float, enc: list[str], xf: float = 0.4) -> None:
@@ -1308,6 +1595,85 @@ def cmd_outro(a: argparse.Namespace) -> str:
     return out
 
 
+# ---------------------------------------------------------------- 7b. môi trường
+
+
+def cmd_moi_truong(a: argparse.Namespace) -> dict:
+    """Tự nhận diện thứ có sẵn trong môi trường (ChatGPT, máy cá nhân, máy chủ) và chức năng dùng được."""
+    import importlib.util
+    import platform
+
+    def has_mod(m):
+        try:
+            return importlib.util.find_spec(m) is not None
+        except Exception:
+            return False
+
+    def ver(cmd):
+        try:
+            return subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
+                                  timeout=20).stdout.splitlines()[0][:80]
+        except Exception:
+            return None
+
+    ff = shutil.which("ffmpeg")
+    filters = encoders = ""
+    if ff:
+        filters = subprocess.run([ff, "-hide_banner", "-filters"], stdout=subprocess.PIPE, text=True).stdout
+        encoders = subprocess.run([ff, "-hide_banner", "-encoders"], stdout=subprocess.PIPE, text=True).stdout
+    flt = lambda n: f" {n} " in filters  # noqa: E731
+    net = None
+    if not offline() and not a.khong_thu_mang:
+        try:
+            import urllib.request
+            urllib.request.urlopen("https://pypi.org/simple/", timeout=5)
+            net = True
+        except Exception:
+            net = False
+    cv_ok = has_mod("cv2")
+    yunet = bo_cuc.face_backend() if cv_ok else "khong"
+    wh = {m: whisper_status(m) for m in ("turbo", "small")}
+    node = shutil.which("node")
+    rem = (ROOT / "node_modules" / ".bin" / "remotion").exists()
+    hyp = (ROOT / "node_modules" / ".bin" / "hyperframes").exists()
+    chrome = motion.find_chrome()
+    env = {
+        "he_dieu_hanh": platform.platform(), "python": platform.python_version(),
+        "moi_truong_rieng_venv": (ROOT / ".venv" / "bin" / "python").exists(),
+        "ffmpeg": ver([ff, "-version"]) if ff else None,
+        "ffmpeg_libx264": "libx264" in encoders, "ffmpeg_phu_de_libass": flt("subtitles"),
+        "ffmpeg_cas_lam_net": flt("cas"), "ffmpeg_loudnorm": flt("loudnorm"),
+        "numpy": has_mod("numpy"), "opencv": cv_ok, "nhan_dien_mat": yunet,
+        "whisper": wh, "node": ver([node, "--version"]) if node else None, "remotion": rem, "hyperframes": hyp,
+        "chrome": chrome, "mang_internet": net, "che_do_ngoai_tuyen": offline(),
+        "so_lui_cpu": os.cpu_count(),
+    }
+    must = env["ffmpeg"] and env["ffmpeg_libx264"] and env["numpy"]
+    feats = {
+        "cat_khoang_lang": bool(must),
+        "giu_dong_tac_lat_bai": bool(must),
+        "dong_bo_micro_long_tieng": bool(must),
+        "ghep_anh_video": bool(must),
+        "chinh_mau_can_bang_trang": bool(must),
+        "lam_net": bool(must and env["ffmpeg_cas_lam_net"]),
+        "phu_de_tu_nhan_dang_whisper": any(v == "san-sang" for v in wh.values()) or
+                                       (any(v == "thieu-mo-hinh" for v in wh.values()) and bool(net)),
+        "phu_de_tu_loi_goc_hoac_srt": bool(must and env["ffmpeg_phu_de_libass"]),
+        "tu_dien_doi_chieu": True,
+        "tranh_mat": yunet != "khong",
+        "tranh_vung_la_bai": bool(env["numpy"]),
+        "nhac_nen_chuan_am_luong": bool(must and env["ffmpeg_loudnorm"]),
+        "intro_the_bai_remotion": bool(node and rem and (chrome or net)),
+        "outro_hyperframes": bool(node and hyp and (chrome or net)),
+        "xuat_mp4_916": bool(must),
+    }
+    res = {"moi_truong": env, "chuc_nang": feats}
+    print(json.dumps(res, ensure_ascii=False, indent=2))
+    off = [k for k, v in feats.items() if not v]
+    log("Chức năng KHÔNG dùng được ở đây: " + (", ".join(off) if off else "không có"))
+    return res
+
+
 # ---------------------------------------------------------------- 8. quy trình đầy đủ
 
 
@@ -1333,6 +1699,11 @@ def load_config(path: Path) -> dict:
 
 
 def cmd_dung(a: argparse.Namespace) -> dict:
+    """Quy trình đầy đủ, chia công đoạn có điểm lưu (lam-viec/trang-thai.json).
+
+    Chạy lại cùng lệnh: công đoạn đã xong (cùng đầu vào, cùng tham số) được bỏ qua. Kết hợp --gioi-han-giay
+    để mỗi lượt chạy ngắn (môi trường giới hạn thời gian như ChatGPT): hết giờ thì dừng an toàn, mã thoát 3."""
+    import hashlib
     cfg_path = Path(a.cau_hinh).resolve()
     cfg = load_config(cfg_path)
     base = cfg_path.parent
@@ -1347,20 +1718,49 @@ def cmd_dung(a: argparse.Namespace) -> dict:
     x = cfg.get("xuat", {})
     do_cut = cfg.get("cat_lang", True)
     voice = path(cfg.get("long_tieng"))
+    state_f = work / "trang-thai.json"
+    state = json.loads(state_f.read_text("utf-8")) if state_f.is_file() else {}
 
-    def cut(src: str, out: str) -> dict:
-        return cmd_cat_lang(argparse.Namespace(
-            input=src, output=out, che_do=cl.get("che_do", "auto"), nguong=cl.get("nguong", "auto"),
-            lang_toi_thieu=cl.get("lang_toi_thieu", 0.55), dem=cl.get("dem", 0.18), chuyen_mo=cl.get("chuyen_mo", 0),
-            giu_toi_thieu=cl.get("giu_toi_thieu", 0.12), chi_xem=False, mo_hinh=pd.get("mo_hinh", "turbo"),
-            ngon_ngu=pd.get("ngon_ngu", "vi")))
+    def fingerprint(parts) -> str:
+        items = []
+        for v in parts:
+            items.append(json.dumps(v, ensure_ascii=False, sort_keys=True, default=str))
+            if isinstance(v, str) and Path(v).is_file():
+                st = Path(v).stat()
+                items.append(f"{st.st_size}:{int(st.st_mtime)}")
+        return hashlib.sha1("|".join(items).encode()).hexdigest()[:16]
+
+    def stage(name: str, outs: list[str], key_parts: list, fn):
+        key = fingerprint(key_parts)
+        st = state.get(name)
+        if st and st.get("khoa") == key and all(Path(o).is_file() for o in outs):
+            log(f"[{name}] đã xong từ lượt trước – bỏ qua")
+            return st.get("ket_qua")
+        check_deadline(name)
+        log(f"[{name}] bắt đầu")
+        res = fn()
+        state[name] = {"khoa": key, "ra": outs, "ket_qua": res if isinstance(res, (dict, str, list, type(None))) else None}
+        state_f.write_text(json.dumps(state, ensure_ascii=False, indent=1, default=str), "utf-8")
+        return res
+
+    cut_args = dict(che_do=cl.get("che_do", "auto"), nguong=cl.get("nguong", "auto"),
+                    lang_toi_thieu=cl.get("lang_toi_thieu", 0.55), dem=cl.get("dem", 0.18),
+                    chuyen_mo=cl.get("chuyen_mo", 0), giu_toi_thieu=cl.get("giu_toi_thieu", 0.12),
+                    khong_giu_dong_tac=not cl.get("giu_dong_tac", True), chi_xem=False,
+                    mo_hinh=pd.get("mo_hinh", "turbo"), ngon_ngu=pd.get("ngon_ngu", "vi"))
+    if cut_args["che_do"] in ("auto", "loi-noi") and not whisper_usable(cut_args["mo_hinh"]):
+        cut_args["che_do"] = "am-luong"   # không có Whisper → cắt theo âm lượng (+ giữ động tác)
+
+    def cut(src: str, out: str, name: str) -> dict:
+        return stage(name, [out], [src, cut_args], lambda: cmd_cat_lang(argparse.Namespace(
+            input=src, output=out, **cut_args))) or {}
 
     words_json = None
     # 1) nguồn: cảnh (ảnh/video) + lồng tiếng, hoặc một video
     if cfg.get("canh"):
         if voice and do_cut:
             cut_voice = str(work / "01-long-tieng-cat.wav")
-            cut(voice, cut_voice)
+            cut(voice, cut_voice, "cat-lang-long-tieng")
             voice, do_cut = cut_voice, False
         scenes = []
         for sc in cfg["canh"]:
@@ -1369,51 +1769,63 @@ def cmd_dung(a: argparse.Namespace) -> dict:
                 if k in sc:
                     sc[k] = path(sc[k])
             scenes.append(sc)
-        src = build_scenes(scenes, voice, str(work / "02-ghep-canh.mp4"), zoom=cfg.get("chuyen_dong_anh", True),
-                           xf=float(cfg.get("chuyen_canh", 0.4)))
+        src = str(work / "02-ghep-canh.mp4")
+        stage("ghep-canh", [src], [scenes, voice, cfg.get("chuyen_dong_anh", True), cfg.get("chuyen_canh", 0.4)],
+              lambda: build_scenes(scenes, voice, src, zoom=cfg.get("chuyen_dong_anh", True),
+                                   xf=float(cfg.get("chuyen_canh", 0.4))))
     else:
         src = path(cfg.get("video"))
-        if not src:
-            raise KvtError("Cấu hình cần 'video' hoặc 'canh'.")
+        if not src or not Path(src).is_file():
+            raise KvtError(f"Cấu hình cần 'video' (tệp có thật) hoặc 'canh'. Không thấy: {src}")
         mic = path(cfg.get("am_thanh_rieng"))
         if voice and cfg.get("long_tieng_che_do", "thay") == "dong-bo":
-            mic = voice
-            voice = None
+            mic, voice = voice, None
         if mic:
             synced = str(work / "01-dong-bo.mp4")
-            cmd_dong_bo(argparse.Namespace(video=src, am_thanh=mic, giay_phan_tich=90, output=synced))
+            s0 = src
+            stage("dong-bo", [synced], [s0, mic], lambda: cmd_dong_bo(argparse.Namespace(
+                video=s0, am_thanh=mic, giay_phan_tich=90, output=synced)))
             src = synced
         if voice:  # lồng tiếng thay âm thanh gốc
             if do_cut:
                 cut_voice = str(work / "01-long-tieng-cat.wav")
-                cut(voice, cut_voice)
+                cut(voice, cut_voice, "cat-lang-long-tieng")
                 voice, do_cut = cut_voice, False
             replaced = str(work / "02-long-tieng.mp4")
-            replace_audio(src, voice, replaced)
+            s0, v0 = src, voice
+            stage("thay-tieng", [replaced], [s0, v0], lambda: replace_audio(s0, v0, replaced))
             src = replaced
     if do_cut:
-        rep = cut(src, str(work / "03-cat-lang.mp4"))
+        out_cut = str(work / "03-cat-lang.mp4")
+        rep = cut(src, out_cut, "cat-lang")
         words_json = rep.get("tu_json")
-        src = str(work / "03-cat-lang.mp4")
+        src = out_cut
 
-    # 2) phụ đề
+    # 2) phụ đề: Whisper → (lời gốc nếu có); không có Whisper → lời gốc ước lượng; có sẵn SRT/ASS → dùng luôn
     sub = path(cfg.get("phu_de_sua"))
     lv = pd.get("linh_vuc") or []
     if isinstance(lv, str):
         lv = [lv]
+    loi_goc = path(cfg.get("loi_goc"))
     if not sub and cfg.get("phu_de", True):
-        cmd_phu_de(argparse.Namespace(
-            input=src, thu_muc=str(work), mo_hinh=pd.get("mo_hinh", "turbo"), tu_json=words_json,
-            ngon_ngu=pd.get("ngon_ngu", "vi"), goi_y=pd.get("goi_y"), khong_goi_y=False, linh_vuc=",".join(lv),
-            ky_tu_toi_da=pd.get("ky_tu_toi_da", 30), giay_toi_da=pd.get("giay_toi_da", 3.2),
-            kieu=pd.get("kieu", "tarot"), khong_nhan_tu=not pd.get("nhan_tu", True)))
-        stem = work / Path(src).stem
-        sub = str(stem) + ".ass"
-        if cfg.get("loi_goc"):
-            cmd_doi_chieu(argparse.Namespace(tu_json=str(stem) + ".words.json", loi_goc=path(cfg["loi_goc"]),
-                                             output_stem=str(stem) + "-loi-goc", kieu=pd.get("kieu", "tarot"),
-                                             chi_bao_cao=False))
-            sub = str(stem) + "-loi-goc.ass"
+        if whisper_usable(pd.get("mo_hinh", "turbo")) or loi_goc or words_json:
+            stem = work / Path(src).stem
+            sub = str(stem) + ".ass"
+            s0 = src
+            res_pd = stage("phu-de", [sub], [s0, pd, loi_goc, words_json], lambda: cmd_phu_de(argparse.Namespace(
+                input=s0, thu_muc=str(work), mo_hinh=pd.get("mo_hinh", "turbo"), tu_json=words_json,
+                loi_goc=loi_goc, srt=None, ngon_ngu=pd.get("ngon_ngu", "vi"), goi_y=pd.get("goi_y"),
+                khong_goi_y=False, linh_vuc=",".join(lv), ky_tu_toi_da=pd.get("ky_tu_toi_da", 30),
+                giay_toi_da=pd.get("giay_toi_da", 3.2), kieu=pd.get("kieu", "tarot"),
+                khong_nhan_tu=not pd.get("nhan_tu", True)))) or {}
+            if res_pd.get("nguon") == "loi-goc-uoc-luong" and not cfg.get("phu_de_uoc_luong_cho_phep", False):
+                # mốc ước lượng có thể lệch lời → KHÔNG ghép vào video, chỉ để bản nháp cho Kendy xem / sửa
+                log(f"Phụ đề từ lời gốc chỉ có mốc ƯỚC LƯỢNG → KHÔNG ghép vào video. Bản nháp: {stem}.srt. "
+                    "Sửa mốc rồi đưa vào \"phu_de_sua\", hoặc đặt \"phu_de_uoc_luong_cho_phep\": true nếu chấp nhận.")
+                sub = None
+        else:
+            log("CẢNH BÁO: không có Whisper và không có lời gốc / phụ đề có sẵn → video xuất KHÔNG có phụ đề. "
+                "Thêm \"loi_goc\": \"loi-thoai.txt\" hoặc \"phu_de_sua\": \"phu-de.srt\" vào cấu hình.")
 
     # 3) intro / outro: tệp có sẵn, hoặc tự dựng ({"tao": true, ...}); không bắt buộc
     def clip(key: str) -> str | None:
@@ -1424,14 +1836,21 @@ def cmd_dung(a: argparse.Namespace) -> dict:
             return path(v)
         if v.get("tao"):
             out = str(work / f"{key}.mp4")
-            if key == "intro":
-                motion.remotion("TarotIntro", out, {"tieuDe": v.get("tieu_de", "THÔNG ĐIỆP TAROT"),
-                                                    "phuDe": v.get("phu_de", "Kendy Huyền Học")}, path(v.get("anh")))
-            else:
-                motion.hyperframes_outro(out, {k2: v[k1] for k1, k2 in (("thuong_hieu", "thuongHieu"),
-                                                                         ("loi_moi", "loiMoi"), ("ghi_chu", "ghiChu"))
-                                               if k1 in v}, path(v.get("anh")))
-            return out
+
+            def make():
+                if key == "intro":
+                    motion.remotion("TarotIntro", out, {"tieuDe": v.get("tieu_de", "THÔNG ĐIỆP TAROT"),
+                                                        "phuDe": v.get("phu_de", "Kendy Huyền Học")}, path(v.get("anh")))
+                else:
+                    motion.hyperframes_outro(out, {k2: v[k1] for k1, k2 in (
+                        ("thuong_hieu", "thuongHieu"), ("loi_moi", "loiMoi"), ("ghi_chu", "ghiChu")) if k1 in v},
+                        path(v.get("anh")))
+            try:
+                stage(key, [out], [v], make)
+                return out
+            except RuntimeError as e:
+                log(f"CẢNH BÁO: không dựng được {key} ở môi trường này ({str(e).splitlines()[0]}) – bỏ qua {key}.")
+                return None
         return None
 
     cards = [f"{path(c['anh'])}@{c['bat_dau']}-{c['ket_thuc']}" for c in cfg.get("la_bai", [])]
@@ -1439,18 +1858,21 @@ def cmd_dung(a: argparse.Namespace) -> dict:
              for d in cfg.get("diem_nhan", [])]
     zones = [f"{z['x']},{z['y']},{z['rong']},{z['cao']}@{z['bat_dau']}-{z['ket_thuc']}" for z in cfg.get("vung_tranh", [])]
     cta = cfg.get("cta") or None
-    return cmd_xuat(argparse.Namespace(
-        input=src, output=str((base / cfg.get("ket_qua", "ket-qua.mp4")).resolve()), khung=x.get("khung", "auto"),
+    out_final = str((base / cfg.get("ket_qua", "ket-qua.mp4")).resolve())
+    xa = argparse.Namespace(
+        input=src, output=out_final, khung=x.get("khung", "auto"),
         tam_x=x.get("tam_x", "auto"), zoom=x.get("zoom", 1.0), mau=x.get("mau", "tu-nhien"), lut=path(x.get("lut")),
         net=x.get("net", "nhe"), fps=x.get("fps"), khong_khu_nhieu=not x.get("khu_nhieu", True),
         la_bai=cards, co_la_bai=x.get("co_la_bai", 0.36), vi_tri_la_bai=x.get("vi_tri_la_bai", "auto"),
         vien_la_bai=x.get("vien_la_bai"), diem_nhan=notes, vung_tranh=zones,
         cta=(f"{cta['chu']}|{cta['phu']}" if cta and cta.get("phu") else (cta or {}).get("chu")),
         cta_giay=(cta or {}).get("giay", 3.5), phu_de=sub, kieu_phu_de=pd.get("kieu", "tarot"),
+        phu_de_co_dinh=x.get("phu_de_co_dinh", False),
         nhac=path(cfg.get("nhac")), muc_nhac=cfg.get("muc_nhac_dB", -20), khong_ha_nhac=not cfg.get("ha_nhac", True),
         lufs=cfg.get("lufs", -14), khong_lam_sach=not cfg.get("lam_sach_giong", True), intro=clip("intro"),
         outro=clip("outro"), chuyen_canh=cfg.get("chuyen_canh", 0.4), crf=x.get("crf", 18),
-        preset=x.get("preset", "slow")))
+        preset=x.get("preset", "slow"), chia_doan=x.get("chia_doan", 0))
+    return stage("xuat", [out_final], [vars(xa)], lambda: cmd_xuat(xa))
 
 
 # ---------------------------------------------------------------- CLI
@@ -1475,6 +1897,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--giu-toi-thieu", type=float, default=0.12, help="bỏ tiếng động ngắn hơn (giây)")
     s.add_argument("--chuyen-mo", type=float, default=0, help="mờ chồng ở điểm cắt (giây, ví dụ 0.1); 0 = cắt thẳng")
     s.add_argument("--chi-xem", action="store_true", help="chỉ in danh sách đoạn, không xuất")
+    s.add_argument("--khong-giu-dong-tac", action="store_true", help="cắt cả lúc lặng có động tác lật / xào bài")
 
     s = sp.add_parser("dong-bo", help="đồng bộ micro rời / lồng tiếng cùng buổi quay với video")
     s.add_argument("video")
@@ -1500,6 +1923,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--thu-muc")
     s.add_argument("--mo-hinh", default="turbo", help="turbo (chính xác, mặc định) | small (nhanh) | large-v3")
     s.add_argument("--tu-json", help="dùng lời đã nhận dạng sẵn (từ cat-lang --che-do loi-noi)")
+    s.add_argument("--loi-goc", help="lời thoại gốc (.txt): có Whisper → phụ đề đúng nguyên văn; không có → ước lượng mốc")
+    s.add_argument("--srt", help="phụ đề có sẵn (.srt) – không cần Whisper")
     s.add_argument("--ngon-ngu", default="vi")
     s.add_argument("--linh-vuc", help=f"từ điển chuyên ngành, cách nhau dấu phẩy: {','.join(tu_dien.LINH_VUC)}")
     s.add_argument("--goi-y", help="từ vựng gợi ý thêm cho Whisper (tên riêng, thuật ngữ)")
@@ -1565,6 +1990,7 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--vung-tranh", action="append", help="'x,y,rộng,cao@BAT_DAU-KET_THUC' vùng không được che (px)")
     s.add_argument("--khong-tranh-mat", action="store_true")
     s.add_argument("--khong-tranh-tay", action="store_true", help="cho phép đặt chữ/lá bài vào vùng tay cầm bài")
+    s.add_argument("--phu-de-co-dinh", action="store_true", help="giữ phụ đề ở dưới, không tự đổi chỗ")
     s.add_argument("--phu-de", help=".ass hoặc .srt")
     s.add_argument("--kieu-phu-de", default="tarot", choices=list(ASS_STYLES), help="dùng khi --phu-de là .srt")
     s.add_argument("--nhac")
@@ -1577,6 +2003,8 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--chuyen-canh", type=float, default=0.4, help="mờ chồng khi nối intro/outro (giây)")
     s.add_argument("--crf", type=int, default=18)
     s.add_argument("--preset", default="slow")
+    s.add_argument("--chia-doan", type=float, default=0,
+                   help="xuất theo đoạn N giây, lưu điểm dừng (môi trường giới hạn thời gian, ví dụ ChatGPT)")
 
     s = sp.add_parser("intro", help="dựng intro lật lá bài (Remotion)")
     s.add_argument("-o", "--output", required=True)
@@ -1597,6 +2025,9 @@ def build_parser() -> argparse.ArgumentParser:
     s.add_argument("--ghi-chu")
     s.add_argument("--anh")
 
+    s = sp.add_parser("moi-truong", help="kiểm tra môi trường: thư viện có sẵn, chức năng dùng được")
+    s.add_argument("--khong-thu-mang", action="store_true", help="không thử kết nối mạng")
+
     s = sp.add_parser("kiem-tra", help="kiểm tra tệp xuất")
     s.add_argument("input")
     s.add_argument("--lufs", type=float, default=-14)
@@ -1612,14 +2043,26 @@ COMMANDS = {
     "am-thanh": cmd_am_thanh, "xuat": cmd_xuat, "kiem-tra": cmd_kiem_tra, "dung": cmd_dung,
     "long-tieng": lambda a: replace_audio(a.video, a.am_thanh, a.output), "ghep-canh": cmd_ghep_canh,
     "tu-dien": cmd_goi_y, "sua-phu-de": cmd_sua_phu_de, "doi-chieu": cmd_doi_chieu, "tim-mat": cmd_tim_mat,
-    "intro": cmd_intro, "the-bai": cmd_the_bai, "outro": cmd_outro,
+    "intro": cmd_intro, "the-bai": cmd_the_bai, "outro": cmd_outro, "moi-truong": cmd_moi_truong,
 }
 
 
 def main(argv: list[str] | None = None) -> int:
+    global DEADLINE
+    import time
+    argv = list(sys.argv[1:] if argv is None else argv)
+    lim = os.environ.get("KVT_GIOI_HAN_GIAY")
+    if "--gioi-han-giay" in argv:   # tuỳ chọn chung, đặt ở bất kỳ đâu
+        i = argv.index("--gioi-han-giay")
+        lim = argv[i + 1]
+        del argv[i:i + 2]
+    DEADLINE = time.time() + float(lim) if lim else None
     a = build_parser().parse_args(argv)
     try:
         COMMANDS[a.cmd](a)
+    except KvtTamDung as e:
+        log(f"TẠM DỪNG: {e}. Kết quả dở dang đã lưu – chạy lại ĐÚNG lệnh này để làm tiếp.")
+        return 3
     except (KvtError, RuntimeError, FileNotFoundError, ValueError) as e:
         log(f"LỖI: {e}")
         return 1

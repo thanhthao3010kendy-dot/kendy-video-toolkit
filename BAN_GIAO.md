@@ -7,15 +7,33 @@ Tài liệu cho mọi trợ lý AI tiếp nhận bộ công cụ. Đọc theo th
 |---|---|---|
 | Claude Code (máy tính hoặc phiên đám mây có kho này) | Có | Toàn bộ: cài, dựng, kiểm tra, hiệu chỉnh, commit khi Kendy cho phép |
 | ChatGPT / Codex có môi trường chạy lệnh Linux, mạng, ≥ 8 GB RAM | Có | Như trên, theo `AGENTS.md` |
-| ChatGPT phân tích dữ liệu (Code Interpreter) | Hạn chế | Thường không có mạng để cài gói; không dựng được trọn quy trình. Chỉ đọc cấu hình, soạn lời thoại / điểm nhấn |
+| ChatGPT phân tích dữ liệu (Code Interpreter) | Có, chế độ nhẹ (từ v1.0.1-beta) | Dựng được trọn video bằng chế độ nhẹ + chia đoạn; không Whisper / intro-outro – xem mục 1b |
 | Claude / ChatGPT chỉ trò chuyện | Không | Tư vấn theo `SKILL.md`, soạn tệp cấu hình JSON và lời thoại để Kendy hoặc AI có máy chạy |
 Không AI nào được giả vờ đã dựng video khi không chạy được lệnh.
+
+## 1b. ChatGPT (môi trường phân tích dữ liệu) – từ v1.0.1-beta
+Chạy được (không cần mạng, không cài lại, dùng python3 + numpy + FFmpeg sẵn có):
+cắt lặng (+ giữ động tác lật bài), đồng bộ micro / thay lồng tiếng, ghép ảnh + video, màu `kendy-tu-dong` / `kendy`,
+làm nét, lá bài sắc nét, điểm nhấn, CTA, phụ đề từ SRT có sẵn, từ điển & đối chiếu, nhạc nền + −14 LUFS,
+tránh vùng lá bài, xuất MP4 9:16 chia đoạn có điểm dừng, kiểm tra tệp.
+Hạn chế: không có Whisper → không tự nhận dạng lời (lời gốc chỉ cho phụ đề NHÁP mốc ước lượng, mặc định không ghép);
+tránh mặt chỉ khi có OpenCV; không có intro/outro Remotion / HyperFrames (cần Node + Chrome).
+```
+unzip kendy-video-toolkit-v1.0.1-beta.zip && cd kendy-video-toolkit
+./cai-dat.sh --nhe                         # kiểm tra, không cài nặng
+export KVT_NGOAI_TUYEN=1
+bin/kvt moi-truong --khong-thu-mang        # bảng chức năng dùng được
+cp /mnt/data/1000037183.mp4 . && cp vi-du/chatgpt-ngoai-tuyen.json du-an.json   # sửa tên tệp nếu cần
+bin/kvt --gioi-han-giay 50 dung du-an.json # mã 3 → chạy lại đúng lệnh này; mã 0 → xong
+bin/kvt kiem-tra 1000037183-916.mp4
+```
+So màu: đổi `"phong_cach": "kendy-mau-cu"` và `"ket_qua"` sang tên khác, chạy lại.
 
 ## 2. Bắt đầu một phiên mới (AI có môi trường chạy lệnh)
 ```
 git clone https://github.com/thanhthao3010kendy-dot/kendy-video-toolkit.git
 cd kendy-video-toolkit
-git checkout release/v1.0.0      # bản ổn định; phát triển tiếp trên main khi Kendy cho phép
+git checkout release/v1.0.0      # bản ổn định; bản thử: git checkout phat-trien/v1.0.1
 ./cai-dat.sh                     # ~4 phút, tự chạy 31 bài kiểm thử
 ```
 Kho riêng tư: AI cần được Kendy cấp quyền đọc kho trên GitHub.

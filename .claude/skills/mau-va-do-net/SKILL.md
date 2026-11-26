@@ -18,6 +18,8 @@ Tham số của `bin/kvt xuat` (hoặc mục `xuat` trong cấu hình):
 
 ## Màu (`--mau`)
 `tu-nhien` (mặc định, tương phản +4%, bão hoà +6%) · `huyen-bi` (tối hơi tím, sáng hơi ấm – hợp Tarot) ·
+`kendy-tu-dong` (MẶC ĐỊNH phong cách Kendy từ v1.0.1: tự cân bằng trắng theo vùng gần trung tính – giảm ám vàng,
+tự chỉnh độ sáng, hệ số giới hạn ±12% để giữ màu da; ghi số đo vào `*.bo-cuc.json` mục `chinh_mau`) ·
 `sang` (cảnh thiếu sáng) · `kendy` (sáng, trong; tối ngả xanh cổ vịt, sáng ngả kem – rất nhẹ) · `khong`. Có thể dùng LUT riêng `--lut file.cube` (đặt trong `assets/luts/`).
 Không đẩy bão hoà quá +10%: màu da và màu lá bài bị sai.
 
@@ -31,6 +33,11 @@ Không đẩy bão hoà quá +10%: màu da và màu lá bài bị sai.
 bài và phụ đề; thiếu chỗ thì thu nhỏ, đặt lệch trái/phải. `--vien-la-bai "#D8BE8C"` viền champagne.
 `--vung-tranh "x,y,rộng,cao@từ-đến"` khai báo thêm vùng không được che. Đọc `RA.bo-cuc.json`: mục `"khong_che": false`
 cần xem lại khung hình. Ảnh lá bài: dùng ảnh Kendy chụp/scan hoặc bộ bài có quyền dùng (Rider-Waite-Smith 1909 là phạm vi công cộng).
+
+## Phụ đề không che mặt / tay / lá bài
+Mặc định phụ đề ở dưới. Dòng nào mà vị trí dưới chạm mặt (hoặc vùng `vung_tranh`), hoặc đè vùng nhiều chi tiết
+(mặt lá bài sặc sỡ) trong khi chỗ khác trống hơn rõ rệt → tự chuyển lên "trên bàn" hoặc "trên". Giữ chỗ cũ nếu
+vẫn ổn để không nhảy liên tục. Kết quả: `phu_de_doi_cho` trong `*.bo-cuc.json`. Tắt: `--phu-de-co-dinh`.
 
 ## Xem trước
 Luôn trích 2–3 khung hình (`ffmpeg -ss T -i RA.mp4 -frames:v 1 x.png`) và xem trước khi báo xong.

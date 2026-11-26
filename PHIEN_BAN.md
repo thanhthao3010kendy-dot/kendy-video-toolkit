@@ -33,8 +33,11 @@ Tất cả miễn phí. Phiên bản được ghim (chọn bản đã phát hàn
 | GSAP 3.15.0 (`motion/hyperframes-outro/assets/gsap.min.js`) | gsap.com | GSAP Standard "no charge" |
 | Ảnh mẫu The Moon (Rider-Waite-Smith 1909) | Wikimedia Commons | Phạm vi công cộng |
 
+| YuNet face_detection_yunet_2023mar.onnx (từ v1.0.1, `assets/models/`) | OpenCV Zoo | MIT (`LICENSE-YuNet.txt`), 230 KB |
+
+## Chế độ nhẹ (v1.0.1, ChatGPT): chỉ cần FFmpeg + python3 + numpy; OpenCV tuỳ chọn (có thì tránh mặt)
+
 ## Tải khi cài (không lưu trong kho)
 | Tài nguyên | Dung lượng | Giấy phép | Kiểm tra |
 |---|---|---|---|
-| YuNet face_detection_yunet_2023mar.onnx | 230 KB | MIT | sha256 8f2383e4…2552fa4 |
 | Whisper turbo (large-v3-turbo), small | 1,5 GB + 0,46 GB | MIT | mã băm của openai-whisper |

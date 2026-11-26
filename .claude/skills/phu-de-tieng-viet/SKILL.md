@@ -18,6 +18,12 @@ Tạo: `VIDEO.srt` (sửa tay), `VIDEO.ass` (để ghép vào video), `VIDEO.wor
 | small | ~42% | ~0,5× thời lượng |
 Chỉ dùng `small` để xem thử. Bản phát hành dùng `turbo`.
 
+## Không có Whisper (ví dụ ChatGPT) – vẫn làm được phụ đề
+- `bin/kvt phu-de VIDEO --loi-goc loi-thoai.txt`: có Whisper → chữ đúng nguyên văn lời gốc, mốc theo Whisper;
+  không có Whisper → rải lời gốc lên các đoạn có tiếng nói (mốc ƯỚC LƯỢNG, lệch 0,3–1 s, tắt tô màu từng từ) – phải xem lại.
+- `bin/kvt phu-de VIDEO --srt co-san.srt`: dùng phụ đề có sẵn (giữ chữ, giữ mốc câu).
+- Chế độ không mạng `KVT_NGOAI_TUYEN=1`: không tải mô hình; chỉ dùng mô hình đã có trong `.cache/whisper`.
+
 ## Từ điển chuyên ngành (`tu-dien/`)
 Sáu lĩnh vực: `tarot` (78 lá, tên Việt + Anh), `bat-tu-manh-phai` (cách viết theo ứng dụng Bát Tự của Kendy),
 `tu-vi`, `phong-thuy`, `kinh-dich` (64 quẻ), `nhan-tuong`. Tất cả ở trạng thái 【Chờ Kendy xác nhận cách viết】.

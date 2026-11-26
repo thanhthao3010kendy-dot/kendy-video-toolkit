@@ -2,7 +2,7 @@
 .venv/
 node_modules/
 .cache/
-assets/models/*.onnx
+# YuNet (230 KB, MIT) đóng gói sẵn trong kho để chạy không cần mạng
 .chrome-path
 __pycache__/
 *.pyc

@@ -211,3 +211,47 @@ def align_script(segs: list[dict], script: str) -> tuple[list[dict], dict]:
     rep = {"so_tu_loi_goc": len(b), "so_tu_phu_de": len(a), "ty_le_khac": round(errors / total, 4),
            "khac_biet": diffs}
     return new_segs, rep
+
+
+def estimate_script_timing(script: str, speech: list[tuple[float, float]]) -> list[dict]:
+    """Khi KHÔNG có Whisper: rải lời gốc lên các đoạn có tiếng nói (dò theo âm lượng) theo số âm tiết.
+
+    Kết quả là ƯỚC LƯỢNG (mỗi đoạn tiếng nói nhận phần lời tỉ lệ với độ dài) – lệch có thể 0,3–1 s;
+    phải xem lại. Không đổi chữ nào của lời gốc."""
+    toks = nfc(script).split()
+    if not toks or not speech:
+        return []
+    weights = []
+    for t in toks:
+        w = 1.0
+        if re.search(r"[.!?…]$", t):
+            w += 0.6
+        elif re.search(r"[,;:]$", t):
+            w += 0.3
+        weights.append(w)
+    total_w = sum(weights)
+    total_t = sum(b - a for a, b in speech)
+    words, acc = [], 0.0
+
+    def to_time(x: float) -> float:  # x: thời gian "tiếng nói" tích luỹ → mốc thật
+        for a, b in speech:
+            if x <= b - a:
+                return a + x
+            x -= b - a
+        return speech[-1][1]
+
+    for t, w in zip(toks, weights):
+        s0 = acc / total_w * total_t
+        acc += w
+        e0 = acc / total_w * total_t
+        words.append({"w": t, "s": round(to_time(s0), 3), "e": round(to_time(min(e0, total_t) - 1e-3), 3), "p": 0.5})
+    out, cur = [], []
+    for w in words:
+        cur.append(w)
+        if re.search(r"[.!?…]$", w["w"]):
+            out.append(cur)
+            cur = []
+    if cur:
+        out.append(cur)
+    return [{"s": c[0]["s"], "e": c[-1]["e"], "text": " ".join(x["w"] for x in c), "words": c, "uoc_luong": True}
+            for c in out]

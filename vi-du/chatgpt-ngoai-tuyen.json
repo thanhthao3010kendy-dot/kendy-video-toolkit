@@ -1,0 +1,12 @@
+{
+  "_huong_dan": "Cấu hình cho môi trường hạn chế (ChatGPT): không mạng, không Whisper, giới hạn thời gian mỗi lần chạy. Chạy lặp: bin/kvt --gioi-han-giay 50 dung du-an.json cho tới khi mã thoát = 0 (mã 3 = đã lưu điểm dừng, chạy lại). Phụ đề lấy từ lời gốc (ước lượng mốc) hoặc phu_de_sua (SRT có sẵn).",
+  "phong_cach": "kendy",
+  "video": "1000037183.mp4",
+  "ket_qua": "1000037183-916.mp4",
+  "thu_muc_tam": "lam-viec",
+  "loi_goc": "loi-thoai.txt",
+  "phu_de_sua": null,
+  "phu_de_tham_so": {"linh_vuc": ["tarot"]},
+  "cta": null,
+  "xuat": {"preset": "veryfast", "chia_doan": 8}
+}

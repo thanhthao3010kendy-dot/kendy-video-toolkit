@@ -11,6 +11,9 @@ bin/kvt cat-lang VAO.mp4 -o RA.mp4 [--chi-xem] [--che-do am-luong|loi-noi] [--ng
 ```
 - `--che-do auto` (mặc định): đo âm lượng trước; nếu gần như không có khoảng lặng (nhạc nền liên tục) thì tự chuyển sang `loi-noi`.
 - Đầu vào có thể là video hoặc TỆP ÂM THANH (lồng tiếng .wav/.mp3) → ra .wav.
+- Giữ động tác: khoảng lặng mà hình đang có chuyển động rõ (lật / xào / đặt bài) KHÔNG bị cắt (ngưỡng tự tính
+  theo video, bỏ qua hiệu ứng lấp lánh nền). Tắt bằng `--khong-giu-dong-tac`. Báo cáo: `dong_tac_giu_lai` trong `*.cat-lang.json`.
+- Không có Whisper: chế độ `auto` tự dùng `am-luong`.
 - `--chuyen-mo 0.1`: mờ chồng 0,1 s ở mỗi điểm cắt cho bớt giật hình (phong cách Kendy dùng 0,1). 0 = cắt thẳng.
 
 - `am-luong` (mặc định, nhanh): tự đo nền ồn và mức giọng của chính video để đặt ngưỡng

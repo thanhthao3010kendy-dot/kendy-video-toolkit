@@ -1,10 +1,26 @@
 {
-  "_mo_ta": "Phong cách riêng Kendy Huyền Học: xanh cổ vịt đậm #0B4F56, kem sáng #F6EFE0, vàng champagne #D8BE8C. Hình sáng, sắc, lá bài rõ; chuyển cảnh mềm; motion graphics chỉ ở điểm nhấn do Kendy chỉ định; không che mặt, không che lá bài; intro/outro không bắt buộc.",
+  "_mo_ta": "Phong cách riêng Kendy Huyền Học: xanh cổ vịt đậm #0B4F56, kem sáng #F6EFE0, vàng champagne #D8BE8C. Hình sáng tự nhiên (tự cân bằng trắng, giảm ám vàng), sắc, lá bài rõ; chuyển cảnh mềm; motion graphics chỉ ở điểm nhấn do Kendy chỉ định; không che mặt, không che lá bài; intro/outro không bắt buộc.",
   "cat_lang": true,
-  "cat_lang_tham_so": {"che_do": "auto", "nguong": "auto", "lang_toi_thieu": 0.6, "dem": 0.2, "chuyen_mo": 0.1},
+  "cat_lang_tham_so": {
+    "che_do": "auto",
+    "nguong": "auto",
+    "lang_toi_thieu": 0.6,
+    "dem": 0.2,
+    "chuyen_mo": 0.1,
+    "giu_dong_tac": true
+  },
   "phu_de": true,
-  "phu_de_tham_so": {"mo_hinh": "turbo", "ngon_ngu": "vi", "kieu": "kendy", "nhan_tu": true,
-                      "ky_tu_toi_da": 28, "giay_toi_da": 3.2, "linh_vuc": ["tarot"]},
+  "phu_de_tham_so": {
+    "mo_hinh": "turbo",
+    "ngon_ngu": "vi",
+    "kieu": "kendy",
+    "nhan_tu": true,
+    "ky_tu_toi_da": 28,
+    "giay_toi_da": 3.2,
+    "linh_vuc": [
+      "tarot"
+    ]
+  },
   "lam_sach_giong": true,
   "ha_nhac": true,
   "muc_nhac_dB": -23,
@@ -17,6 +33,20 @@
   "diem_nhan": [],
   "la_bai": [],
   "vung_tranh": [],
-  "xuat": {"khung": "auto", "tam_x": "auto", "zoom": 1.0, "mau": "kendy", "net": "vua", "khu_nhieu": true,
-           "co_la_bai": 0.36, "vi_tri_la_bai": "auto", "vien_la_bai": "#D8BE8C", "crf": 18, "preset": "slow"}
+  "xuat": {
+    "khung": "auto",
+    "tam_x": "auto",
+    "zoom": 1.0,
+    "mau": "kendy-tu-dong",
+    "net": "vua",
+    "khu_nhieu": true,
+    "co_la_bai": 0.36,
+    "vi_tri_la_bai": "auto",
+    "vien_la_bai": "#D8BE8C",
+    "crf": 18,
+    "preset": "slow",
+    "chia_doan": 0,
+    "phu_de_co_dinh": false
+  },
+  "phu_de_uoc_luong_cho_phep": false
 }

@@ -62,14 +62,30 @@ def geometry(khung: str, w: int, h: int, crop: tuple[int, int, int, int] | None)
     return Geometry(s, (OUT_W - w * s) / 2, (OUT_H - h * s) / 2)
 
 
+def face_backend() -> str:
+    """Bộ nhận diện mặt dùng được trong môi trường hiện tại: yunet | haar | khong."""
+    try:
+        import cv2  # type: ignore
+    except Exception:
+        return "khong"
+    if hasattr(cv2, "FaceDetectorYN") and YUNET.is_file():
+        return "yunet"
+    data = getattr(getattr(cv2, "data", None), "haarcascades", "")
+    if hasattr(cv2, "CascadeClassifier") and data and Path(data, "haarcascade_frontalface_default.xml").is_file():
+        return "haar"
+    return "khong"
+
+
 def detect_faces(src: str, w: int, h: int, every: float = 0.5, max_frames: int = 400,
                  min_score: float = 0.75) -> list[tuple[float, list[Box]]]:
-    """Trả [(thời điểm, [khung mặt theo toạ độ nguồn])]. FFmpeg tự xoay theo metadata điện thoại."""
+    """Trả [(thời điểm, [khung mặt theo toạ độ nguồn])]. FFmpeg tự xoay theo metadata điện thoại.
+    Thứ tự: YuNet (chính xác) → Haar (có sẵn trong OpenCV 4) → báo không có."""
     import numpy as np
+    backend = face_backend()
+    if backend == "khong":
+        raise RuntimeError("Không có OpenCV hoặc mô hình nhận diện mặt – bố cục dùng vị trí mặc định")
     import cv2  # type: ignore
 
-    if not YUNET.is_file():
-        raise RuntimeError(f"Thiếu mô hình nhận diện mặt {YUNET.name} – chạy lại cai-dat.sh")
     aw = 640
     ah = int(round(h * aw / w / 2)) * 2
     proc = subprocess.run(
@@ -78,16 +94,23 @@ def detect_faces(src: str, w: int, h: int, every: float = 0.5, max_frames: int =
         stdout=subprocess.PIPE)
     raw = proc.stdout
     size = aw * ah * 3
-    det = cv2.FaceDetectorYN.create(str(YUNET), "", (aw, ah), min_score)
+    if backend == "yunet":
+        det = cv2.FaceDetectorYN.create(str(YUNET), "", (aw, ah), min_score)
+    else:
+        haar = cv2.CascadeClassifier(str(Path(cv2.data.haarcascades, "haarcascade_frontalface_default.xml")))
     k = w / aw
     out = []
     for i in range(len(raw) // size):
         img = np.frombuffer(raw[i * size:(i + 1) * size], dtype=np.uint8).reshape(ah, aw, 3)
-        _, faces = det.detect(img)
         boxes = []
-        if faces is not None:
-            for f in faces:
+        if backend == "yunet":
+            _, faces = det.detect(img)
+            for f in (faces if faces is not None else []):
                 boxes.append(Box(float(f[0]) * k, float(f[1]) * k, float(f[2]) * k, float(f[3]) * k))
+        else:
+            gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            for (x, y, fw, fh) in haar.detectMultiScale(gray, 1.1, 6, minSize=(40, 40)):
+                boxes.append(Box(float(x) * k, float(y) * k, float(fw) * k, float(fh) * k))
         out.append((i * every, boxes))
     return out
 

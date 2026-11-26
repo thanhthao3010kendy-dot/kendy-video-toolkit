@@ -112,7 +112,7 @@ class TestBoCuc(unittest.TestCase):
             p = Path(d) / "c.json"
             p.write_text(json.dumps({"phong_cach": "kendy", "video": "x.mp4", "xuat": {"net": "nhe"}}), "utf-8")
             cfg = kvt.load_config(p)
-            self.assertEqual(cfg["xuat"]["mau"], "kendy")
+            self.assertEqual(cfg["xuat"]["mau"], "kendy-tu-dong")  # tự cân bằng trắng (yêu cầu 26/11)
             self.assertEqual(cfg["xuat"]["net"], "nhe")  # cấu hình dự án ghi đè phong cách
             self.assertEqual(cfg["phu_de_tham_so"]["kieu"], "kendy")
             self.assertIsNone(cfg["intro"])  # intro/outro không bắt buộc
