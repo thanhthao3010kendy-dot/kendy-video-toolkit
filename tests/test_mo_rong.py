@@ -164,6 +164,26 @@ class TestTichHopMoRong(unittest.TestCase):
         self.assertEqual((int(v["width"]), int(v["height"])), (1080, 1920))
         self.assertAlmostEqual(kvt.duration_of(info), 6.0, delta=0.15)  # theo độ dài lồng tiếng
 
+    def test_anh_la_bai_khong_bi_che(self):
+        body = self.d / "canh_anh.mp4"
+        self.assertEqual(kvt.main(["ghep-canh", str(self.card), str(self.card), "-o", str(body),
+                                   "--long-tieng", str(self.voice)]), 0)
+        zones = json.loads(body.with_suffix(".vung-tranh.json").read_text("utf-8"))
+        self.assertEqual(len(zones), 2)
+        band = bo_cuc.subtitle_band()
+        for z in zones:  # ảnh lá bài nằm trên dải phụ đề
+            self.assertLessEqual(z["y"] + z["cao"], band.y)
+        srt = self.d / "pd.srt"
+        srt.write_text("1\n00:00:00,000 --> 00:00:06,000\nLời thoại thử nghiệm\n", "utf-8")
+        out = self.d / "canh_anh_ra.mp4"
+        self.assertEqual(kvt.main(["xuat", str(body), "-o", str(out), "--preset", "ultrafast", "--phu-de", str(srt),
+                                   "--cta", "Theo dõi Kendy Huyền Học|Thông điệp mỗi ngày"]), 0)
+        m = json.loads(out.with_suffix(".bo-cuc.json").read_text("utf-8"))["muc"][0]
+        self.assertTrue(m["khong_che"])
+        self.assertTrue(m["thay_cho_phu_de"])
+        for z in zones:
+            self.assertFalse(bo_cuc.Box(0, m["y"], 1080, 10).hits(bo_cuc.Box(z["x"], z["y"], z["rong"], z["cao"])))
+
     def test_xuat_kendy_la_bai_diem_nhan_cta(self):
         out = self.d / "kendy.mp4"
         rc = kvt.main(["xuat", str(self.src), "-o", str(out), "--preset", "ultrafast", "--khung", "auto",
@@ -233,3 +253,19 @@ class TestTaiLieu(unittest.TestCase):
         for p in (ROOT / "vi-du").glob("*.json"):
             cfg = kvt.load_config(p)
             self.assertTrue(cfg.get("video") or cfg.get("canh"), p.name)
+
+
+class TestTuDienKhongNhieu(unittest.TestCase):
+    def w(self, t):
+        return [{"s": 0, "e": 9, "text": "", "words": words(t)}]
+
+    def test_tu_thuong_khong_bi_goi_y(self):
+        for t in ("năm diễn ra vào tháng mười hai", "đánh hơi từng chỗ", "mang tính đặc trưng",
+                  "quẻ thủy hỏa ký tế"):
+            self.assertEqual(tu_dien.suggest(self.w(t), tu_dien.LINH_VUC), [], t)
+
+    def test_nghe_nham_am_de_lan(self):
+        got = {(g["nghe_duoc"], g["goi_y"]) for g in tu_dien.suggest(self.w("sao tham lan và thất xát"),
+                                                                      tu_dien.LINH_VUC)}
+        self.assertIn(("tham lan", "Tham Lang"), got)
+        self.assertIn(("thất xát", "Thất Sát"), got)

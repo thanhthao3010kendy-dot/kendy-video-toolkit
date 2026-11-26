@@ -1,56 +1,65 @@
-# Báo cáo cài đặt & kiểm thử – 26/11/2026
+# Báo cáo kiểm thử – kendy-video-toolkit v1.0.0 (26/11/2026)
 
-Môi trường thử: máy ảo đám mây Linux, 4 lõi CPU, 15 GB RAM, **không GPU**. Chưa thử trên máy của Kendy
-hay điện thoại thật.
+Môi trường thử: máy ảo đám mây Linux, 4 lõi CPU, 15 GB RAM, **không GPU**.
+Chưa thử trên máy của Kendy, chưa thử với video quay thật của Kendy, chưa xem trên điện thoại thật.
 
-## 1. Kiểm tra trước khi cài
-
-| Công cụ | Giấy phép | Tương thích | Phần cứng | Kết luận |
+## 1. Công cụ, giấy phép, phần cứng
+| Công cụ | Phiên bản | Giấy phép | Hoạt động | Ghi chú |
 |---|---|---|---|---|
-| FFmpeg 6.1.1 | LGPL/GPL (bản Ubuntu dựng GPL) – dùng tự do, chỉ ràng buộc khi phát hành lại phần mềm | Có đủ libx264, libass, zscale, cas, loudnorm, sidechaincompress | CPU bất kỳ | Có sẵn, dùng ngay |
-| Whisper | MIT | Python 3.13 + PyTorch 2.15 CPU | CPU chạy được; turbo cần ~3 GB RAM | Cài bản CPU (nhẹ, không cần GPU) |
-| yt-dlp | Unlicense (phạm vi công cộng) | Python | Không đáng kể | Cài |
-| Remotion 4.0.542 | Remotion License: **miễn phí** cho cá nhân / tổ chức ≤ 3 nhân viên, kể cả thương mại; lớn hơn phải mua Company License | Node 22, cần Chrome headless | ~1 GB RAM khi dựng | Cài – Kendy dùng cá nhân thuộc diện miễn phí |
-| HyperFrames 0.9.27 | Apache-2.0 (mã nguồn). Một số lệnh gắn dịch vụ HeyGen có thể tính phí (publish, billing, templates Pro) | Node ≥ 22, FFmpeg, Chrome | ~256 MB RAM/luồng | Cài, **tắt telemetry**, khoá các lệnh có thể tính phí |
+| FFmpeg | 6.1.1 | LGPL/GPL | ✅ | cắt, màu, nét, phụ đề, âm thanh, mã hoá |
+| Whisper (CPU) | 20250625 | MIT | ✅ | tiếng Việt: turbo sai ~8% số từ, small ~42% |
+| OpenCV YuNet | 5.0.0.93 / 2023mar | Apache-2.0 / MIT | ✅ | nhận diện mặt để bố cục |
+| yt-dlp | 2026.10.26 | Unlicense | ⚠️ | archive.org được; YouTube chặn máy chủ đám mây |
+| Remotion | 4.0.542 | miễn phí cá nhân / ≤ 3 người | ✅ | intro, thẻ lá bài |
+| HyperFrames | 0.9.27 | Apache-2.0 | ✅ | outro, dựng cục bộ; lệnh có phí bị khoá |
+Không phát sinh chi phí. Telemetry Remotion/HyperFrames đã tắt.
 
-Chọn phiên bản đã phát hành ≥ 2 tuần (tránh bản mới chưa ổn định). Không cài gì vào kho `Kendy-tarot`.
+## 2. Dữ liệu thử thật
+- Video Tarot tiếng Anh 1080p có người đọc bài cầm lá bài, có nhạc nền (archive.org, Public Domain Mark) – chỉ thử, không phát hành.
+- Giọng đọc tiếng Việt thật Google FLEURS `vi_vn` (CC-BY 4.0), 10 câu, có lời gốc để đối chiếu.
+- Ảnh lá bài The Moon, Rider-Waite-Smith 1909 (phạm vi công cộng). Nhạc nền thử: âm tổng hợp.
 
-## 2. Kết quả từng công cụ
+## 3. Kết quả chức năng
+| Chức năng | Kết quả |
+|---|---|
+| Cắt khoảng lặng (tự chọn chế độ) | Giữ đủ 10/10 câu, kể cả câu nói rất nhỏ; hình–tiếng lệch < 1 ms; chuyển mờ 0,1 s ở điểm cắt |
+| Đồng bộ micro rời | Tìm đúng +437 ms / −1250 ms; ghép xong đo lại 0 ms |
+| Lồng tiếng WAV/MP3, ghép ảnh + video | ✅ thời lượng ảnh tự chia theo lời; ảnh đứng > 15 s có cảnh báo |
+| Phụ đề tiếng Việt | turbo sai 7,8–8,5% số từ (có cả tên riêng nước ngoài) |
+| Đối chiếu lời gốc | Báo 18 chỗ khác (8,6%); phụ đề mới dùng đúng nguyên văn lời gốc, mốc thời gian theo Whisper |
+| Từ điển 6 lĩnh vực | 78 lá Tarot, 64 quẻ, 160 mục Manh Phái theo cách viết của ứng dụng Bát Tự; chỉ gợi ý, không tự sửa |
+| Bố cục tránh mặt / lá bài | Mặt là vùng cấm; tránh vùng tay cầm bài; ảnh lá bài không bị phụ đề/CTA đè; CTA/điểm nhấn thay chỗ phụ đề khi cần |
+| Phong cách Kendy | Màu `kendy`, phụ đề kem viền xanh cổ vịt, nhấn champagne, viền lá bài champagne |
+| Nhạc nền tự hạ | Hạ 9–10 dB khi nói, 0 dB khi nghỉ; giọng nhỏ vẫn hạ đủ |
+| Xuất | 1080×1920, H.264 High, 30 fps cố định, AAC 48 kHz, −14 LUFS ± 0,6 |
+| Quy trình 1 lệnh | Video 2 phút 17 giây → 7,5 phút; ảnh + video + lồng tiếng 2 phút 17 giây → 6,8 phút (preset veryfast) |
 
-| Công cụ | Đã cài | Hoạt động | Bằng chứng |
-|---|---|---|---|
-| FFmpeg | ✅ (có sẵn) | ✅ | Toàn bộ cắt / màu / nét / phụ đề / nhạc / xuất chạy được |
-| Whisper | ✅ | ✅ | Tiếng Việt thật (FLEURS): **turbo sai 7,8–8,5% số từ**, small sai 42%. Tiếng Anh: video Tarot thật |
-| yt-dlp | ✅ | ⚠️ Một phần | Tải được từ archive.org (video Tarot 1080p, cắt đoạn 90 s). **YouTube chặn** từ máy chủ đám mây ("Sign in to confirm you're not a bot") – trên máy Kendy thường tải được; cần cookie trình duyệt nếu bị chặn |
-| Remotion | ✅ | ✅ | Dựng `TarotIntro` 3,5 s (27 s) và `LaBaiReveal` 4 s, 1080×1920, chữ Việt đủ dấu |
-| HyperFrames | ✅ | ✅ (dựng cục bộ) | `check` đạt, dựng outro 4 s trong 13 s. Thành phần phụ chưa cài (không cần): whisper-cpp, Kokoro TTS, MusicGen, Docker |
+## 4. Lỗi phát hiện khi thử và đã sửa
+1. Cắt mất 2 câu nói nhỏ (ngưỡng cố định) → ngưỡng tự tính theo từng video.
+2. Nhạc nền chỉ hạ 1,3 dB → chuẩn hoá tín hiệu điều khiển, hạ 9–10 dB.
+3. Lật lá bài trong intro hiện mặt trước bị lật gương → chọn mặt theo góc xoay.
+4. Lá bài chèn che mặt → nhận diện mặt, đặt tránh.
+5. Khung chữ điểm nhấn / CTA che lá bài trên tay, rồi che mặt khi quay cận → vùng cấm (mặt) / vùng nên tránh (tay, phụ đề).
+6. Phụ đề và CTA đè lên ảnh lá bài trong cảnh ảnh → ảnh đặt trong vùng an toàn, tự ghi vùng tránh.
+7. Từ điển gợi ý nhầm từ thường ("năm diễn" → "Năm Tiền") → chỉ xét cặp âm hay nghe lẫn (s/x, tr/ch, d/gi/r/v, l/n, n/ng…).
+8. Kịch bản cài báo nhầm "FFmpeg thiếu libass" trên máy sạch → sửa cách kiểm tra.
 
-## 3. Dữ liệu thử thật
-- Video Tarot tiếng Anh 1080p (người đọc bài cầm lá bài, có nhạc nền), archive.org, nhãn Public Domain Mark – chỉ dùng thử, không phát hành.
-- Giọng đọc tiếng Việt thật: Google FLEURS `vi_vn` (CC-BY 4.0), 10 câu, ghép thành bài nói 137 s có khoảng nghỉ, lồng lên hình video Tarot.
-- Ảnh lá bài The Moon, Rider-Waite-Smith 1909 (phạm vi công cộng), Wikimedia Commons.
-- Nhạc nền thử: âm tổng hợp bằng FFmpeg (không bản quyền) – chỉ để kiểm thử.
+## 5. Kiểm thử tự động
+31 bài (`tests/`): hàm lõi, cắt lặng, đồng bộ, xuất, từ điển, đối chiếu, bố cục, ghép cảnh, motion, tài liệu,
+không có đường dẫn cố định của máy ảo. Kết quả trên máy dựng: **31/31 đạt**.
 
-## 4. Kết quả từng chức năng
+## 6. Kiểm tra khôi phục (môi trường sạch)
+- Lần 1 – sao chép kho sang thư mục mới, thư mục người dùng riêng, không bộ nhớ đệm pip/npm: phát hiện lỗi số 8; sau khi sửa:
+  cài trong 4 phút 10 giây (gồm tải ~2 GB mô hình), **28/28 bài đạt** (bản trước khi thêm 3 bài cuối).
+- Lần 2 – tải từ GitHub về máy sạch: xem mục 7.
 
-| Chức năng | Kết quả | Ghi chú |
-|---|---|---|
-| Cắt khoảng lặng | ✅ Giữ đủ 10/10 câu, bỏ 38 s / 137 s, lệch hình–tiếng 0,5 ms | **Lỗi phát hiện & đã sửa**: bản đầu dùng ngưỡng cố định −38 dB làm mất 2 câu nói nhỏ. Nay tự tính ngưỡng theo từng video |
-| Cắt theo lời nói (Whisper) | ✅ | Dùng cho video có nhạc nền liên tục (cách dò âm lượng không cắt được – đã thấy trên video tiếng Anh) |
-| Đồng bộ micro rời | ✅ Tìm đúng +437 ms và −1250 ms; sau ghép đo lại 0 ms | Âm thanh không liên quan → cảnh báo độ tin cậy thấp (đúng) |
-| Phụ đề | ✅ SRT + ASS tô màu từng từ | Lọc câu ảo giác "Hãy subscribe cho kênh…" (đã gặp thật khi thử đoạn chỉ có nhạc) |
-| Chỉnh màu / độ nét | ✅ 4 mức màu, 4 mức nét, khử nhiễu nhẹ | Đã xem khung hình: màu da tự nhiên, lá bài rõ |
-| Lá bài sắc nét | ✅ Ảnh gốc + bóng đổ mềm | **Đã sửa**: vị trí mặc định ban đầu che mặt người nói |
-| Motion graphics | ✅ Remotion + HyperFrames | **Đã sửa**: lúc lật bài, mặt sau hiện thành mặt trước bị lật gương |
-| Nhạc nền + tự hạ khi nói | ✅ Hạ 9–10 dB khi nói, 0 dB khi nghỉ; giọng nhỏ hơn 12 dB vẫn hạ 10 dB | **Đã sửa**: bản đầu chỉ hạ 1,3 dB |
-| Âm lượng | ✅ −14,0 LUFS, đỉnh ≤ −1 dBTP | Chuẩn TikTok / Reels / Shorts |
-| Xuất MP4 9:16 | ✅ 1080×1920, H.264 High, 30 fps cố định, yuv420p, AAC 48 kHz, faststart | Nối intro/outro mờ chuyển 0,3 s |
-| Quy trình một lệnh `kvt dung` | ✅ 10,5 phút cho video 1 phút 46 s | Turbo trên CPU là bước chậm nhất |
-| Kiểm thử tự động | ✅ 10/10 bài đạt | `tests/test_kvt.py` |
+## 7. Khôi phục từ GitHub
+(điền sau khi thử)
 
-## 5. Chưa làm / hạn chế
-- Chưa thử với video thật của Kendy (giọng Kendy, phòng quay của Kendy). Cần 1 video thô để tinh chỉnh ngưỡng, màu, cỡ chữ.
-- Chưa xem trên điện thoại thật; mới xem khung hình trích xuất.
-- Chưa có nhạc nền thật có bản quyền – Kendy cần cung cấp hoặc chọn trong thư viện TikTok/Instagram.
-- Video quay ngang 1080p cắt sang dọc phải phóng to 1,78× → hình mềm hơn quay dọc. Khuyến nghị quay dọc.
+## 8. Hạn chế còn lại
+- Phụ đề có thể đè lá bài khi người nói hạ lá bài xuống ngang dải phụ đề – cần hiệu chỉnh theo khung hình thật của Kendy
+  (khai báo `vung_tranh` cố định trong phong cách).
+- Nhận diện trực tiếp lá bài trên tay chưa đủ tin cậy (bị ngón tay che) – dùng vùng tay ước lượng thay thế.
+- Video quay ngang cắt dọc bị phóng 1,78× → mềm hơn quay dọc. Khuyến nghị quay dọc 1080×1920 hoặc 4K.
 - Máy không GPU: phụ đề turbo ~1,5× thời lượng video.
+- Chưa thử trường hợp máy hoàn toàn không có Chrome (Remotion sẽ tự tải bản headless miễn phí).

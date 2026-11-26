@@ -924,6 +924,10 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
     cards = [parse_card(c) for c in (a.la_bai or [])]
     notes = [parse_timed(d, "điểm nhấn") for d in (getattr(a, "diem_nhan", None) or [])]
     zones = [parse_zone(z) for z in (getattr(a, "vung_tranh", None) or [])]
+    side = Path(a.input).with_suffix(".vung-tranh.json")  # do 'ghep-canh' tạo: vị trí ảnh lá bài
+    if side.is_file():
+        for z in json.loads(side.read_text("utf-8")):
+            zones.append((bo_cuc.Box(z["x"], z["y"], z["rong"], z["cao"]), z["bat_dau"], z["ket_thuc"]))
     cta = getattr(a, "cta", None)
     need_faces = bool(cards or notes or cta) and not getattr(a, "khong_tranh_mat", False)
     plan = frame_plan(info, a.khung, a.tam_x, a.zoom, a.input, need_faces)
@@ -952,7 +956,8 @@ def cmd_xuat(a: argparse.Namespace) -> dict:
             if hides and not any(box.hits(o) for o in hard):
                 return box, bool(a.phu_de), False
         box, ok = bo_cuc.choose([c for c, _ in cands], hard, soft + band)
-        return box, False, ok
+        hides = next(h for c, h in cands if c is box)
+        return box, hides and bool(a.phu_de), ok
 
     inputs = ["-i", a.input]
     graph = [f"[0:v]{chain}[base]"]
@@ -1181,8 +1186,14 @@ def build_scenes(scenes: list[dict], voice: str | None, out: str, fps: float = 3
         raise KvtError(f"Không thấy tệp lồng tiếng: {voice}")
     voice_dur = duration_of(probe(voice)) if voice else None
     durs = canh.plan_durations(scenes, voice_dur, lambda p: duration_of(probe(p)), xf)
+    long_imgs = [i + 1 for i, (sc, d) in enumerate(zip(scenes, durs)) if "anh" in sc and d > 15]
+    if long_imgs:
+        log(f"CẢNH BÁO: ảnh ở cảnh {long_imgs} phải đứng > 15 giây để khớp lời thoại – nên thêm ảnh/cảnh "
+            "hoặc ghi 'giay' cho từng ảnh để video không bị tĩnh.")
     tmp = Path(tempfile.mkdtemp(prefix="kvt-canh-"))
     clips = []
+    zones = []  # vị trí ảnh lá bài theo thời gian → bước xuất không đặt chữ / CTA đè lên
+    t_start = 0.0
     enc_mid = ["-c:v", "libx264", "-preset", "veryfast", "-crf", "14", "-pix_fmt", "yuv420p", "-r", f"{fps:.6f}",
                "-fps_mode", "cfr", "-movflags", "+faststart"]
     try:
@@ -1190,7 +1201,10 @@ def build_scenes(scenes: list[dict], voice: str | None, out: str, fps: float = 3
             c = str(tmp / f"canh{i:03d}.mp4")
             if "anh" in sc:
                 log(f"Cảnh {i + 1}: ảnh {Path(sc['anh']).name} – {d:.1f}s")
-                canh.image_clip(sc["anh"], c, d, fps, zoom and sc.get("chuyen_dong", True))
+                bx, by, bw, bh = canh.image_clip(sc["anh"], c, d, fps, zoom and sc.get("chuyen_dong", True))
+                g = bo_cuc.Box(bx, by, bw, bh).grow(0.02)  # chừa phần phóng chậm (≤ 4% quanh tâm khung)
+                zones.append({"x": int(g.x), "y": int(g.y), "rong": int(g.w), "cao": int(g.h),
+                              "bat_dau": round(t_start, 3), "ket_thuc": round(t_start + d, 3), "nguon": "anh"})
             else:
                 info = probe(sc["video"])
                 plan = frame_plan(info, sc.get("khung", "auto"), sc.get("tam_x", "auto"), 1.0, sc["video"], False)
@@ -1201,6 +1215,7 @@ def build_scenes(scenes: list[dict], voice: str | None, out: str, fps: float = 3
                 run(ffmpeg_base() + ["-ss", f"{t0:.3f}", "-t", f"{d:.3f}", "-i", sc["video"], "-filter_complex",
                                      f"[0:v]{chain}[v]", "-map", "[v]"] + amap + enc_mid + [c])
             clips.append(c)
+            t_start += d - (xf if len(scenes) > 1 else 0)
         joined = str(tmp / "noi.mp4")
         if len(clips) > 1:
             join_clips(clips, Path(joined), fps, enc_mid, xf=xf)
@@ -1212,6 +1227,7 @@ def build_scenes(scenes: list[dict], voice: str | None, out: str, fps: float = 3
             shutil.copy(joined, out)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+    Path(out).with_suffix(".vung-tranh.json").write_text(json.dumps(zones, ensure_ascii=False, indent=1), "utf-8")
     log(f"Đã ghép {len(scenes)} cảnh → {out}")
     return out
 

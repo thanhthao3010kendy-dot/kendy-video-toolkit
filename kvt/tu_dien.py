@@ -58,6 +58,35 @@ def _syl_dist(a: str, b: str) -> int:
     return sum(1 for x, y in zip(a.split(), b.split()) if x != y)
 
 
+# Cặp phụ âm hay nghe lẫn trong tiếng Việt (đầu / cuối âm tiết), so trên dạng bỏ dấu
+_INITIALS = ["ngh", "ng", "nh", "ch", "tr", "th", "ph", "kh", "gh", "gi", "qu", "b", "c", "d", "g", "h", "k", "l",
+             "m", "n", "p", "r", "s", "t", "v", "x"]
+_CONFUSE_INIT = [{"s", "x"}, {"ch", "tr"}, {"d", "gi", "r", "v"}, {"l", "n"}, {"c", "k", "q", "qu"},
+                 {"ng", "ngh"}, {"g", "gh"}]
+_CONFUSE_FINAL = [("ng", "n"), ("c", "t"), ("nh", "n"), ("ch", "t")]
+
+
+def _split_initial(syl: str) -> tuple[str, str]:
+    for ini in _INITIALS:
+        if syl.startswith(ini):
+            return ini, syl[len(ini):]
+    return "", syl
+
+
+def _confusable(a: str, b: str) -> bool:
+    """Hai âm tiết (đã bỏ dấu) có thể là cùng một âm bị nghe nhầm?"""
+    ia, ra = _split_initial(a)
+    ib, rb = _split_initial(b)
+    if ra == rb and ia != ib:
+        return any(ia in g and ib in g for g in _CONFUSE_INIT)
+    if ia == ib and ra != rb:
+        for x, y in _CONFUSE_FINAL:
+            for u, v in ((x, y), (y, x)):
+                if ra.endswith(u) and ra[: -len(u)] + v == rb:
+                    return True
+    return False
+
+
 def suggest(segs: list[dict], linh_vuc: list[str]) -> list[dict]:
     """Tìm cụm 2–5 âm tiết trong phụ đề giống thuật ngữ (khác dấu, hoặc lệch 1 âm tiết gần giống)."""
     terms = []
@@ -74,16 +103,25 @@ def suggest(segs: list[dict], linh_vuc: list[str]) -> list[dict]:
     for si, seg in enumerate(segs):
         words = seg.get("words") or [{"w": w, "s": seg["s"], "e": seg["e"]} for w in seg["text"].split()]
         toks = [re.sub(r"[^\w’'-]", "", nfc(w["w"]), flags=re.UNICODE) for w in words]
+        # vị trí đã khớp ĐÚNG một thuật ngữ (chỉ khác hoa/thường) → không gợi ý chồng lên
+        correct: set[int] = set()
+        for n, cand in by_len.items():
+            for i in range(0, len(toks) - n + 1):
+                span = " ".join(toks[i:i + n]).lower()
+                if any(span == nfc(form).lower() for _, form, _ in cand):
+                    correct.update(range(i, i + n))
         for n, cand in by_len.items():
             for i in range(0, len(toks) - n + 1):
                 span = " ".join(toks[i:i + n])
-                if not span:
+                if not span or correct.intersection(range(i, i + n)):
                     continue
                 ss = strip_marks(span)
                 for sf, form, m in cand:
                     exact = ss == sf
-                    near = (not exact and n >= 2 and _syl_dist(ss, sf) == 1
-                            and difflib.SequenceMatcher(None, ss, sf).ratio() >= 0.86)
+                    near = False
+                    if not exact and n >= 2 and _syl_dist(ss, sf) == 1:
+                        x, y = next((x, y) for x, y in zip(ss.split(), sf.split()) if x != y)
+                        near = _confusable(x, y)
                     if not (exact or near):
                         continue
                     if exact and span.lower() == nfc(form).lower():

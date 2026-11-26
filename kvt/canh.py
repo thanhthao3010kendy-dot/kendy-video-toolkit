@@ -26,10 +26,25 @@ def kind_of(path: str) -> str:
     return "video"
 
 
-def image_clip(img: str, out: str, dur: float, fps: float, zoom: bool) -> None:
+# Vùng đặt ảnh: dưới thanh trên của TikTok/Reels, trên dải phụ đề → phụ đề / CTA không đè lên lá bài
+IMG_TOP, IMG_BOTTOM = 250, 1250
+
+
+def image_box(img: str) -> tuple[int, int, int, int]:
+    """(x, y, rộng, cao) của ảnh trên khung 1080×1920 – đặt trọn ảnh trong vùng an toàn."""
+    p = subprocess.run(["ffprobe", "-v", "error", "-select_streams", "v:0", "-show_entries", "stream=width,height",
+                        "-of", "csv=p=0", img], stdout=subprocess.PIPE, text=True, check=True)
+    w, h = [int(v) for v in p.stdout.strip().split(",")[:2]]
+    avail_h, avail_w = IMG_BOTTOM - IMG_TOP, OUT_W - 120
+    k = min(avail_h / h, avail_w / w)
+    bw, bh = int(w * k) // 2 * 2, int(h * k) // 2 * 2
+    return (OUT_W - bw) // 2, IMG_TOP + (avail_h - bh) // 2, bw, bh
+
+
+def image_clip(img: str, out: str, dur: float, fps: float, zoom: bool) -> tuple[int, int, int, int]:
     frames = max(1, int(round(dur * fps)))
-    # nền: chính ảnh phủ kín khung, làm mờ & tối nhẹ; tiền cảnh: trọn ảnh, cao tối đa 86% khung
-    fg_h = int(OUT_H * 0.86)
+    # nền: chính ảnh phủ kín khung, làm mờ & tối nhẹ; tiền cảnh: trọn ảnh trong vùng an toàn
+    bx, by, bw, bh = image_box(img)
     if zoom:
         # phóng 2× rồi zoompan → chuyển động mượt, không rung; tối đa +4% trong suốt cảnh
         z = f"zoompan=z='1+0.04*on/{frames}':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d={frames}:s={OUT_W}x{OUT_H}:fps={fps}"
@@ -38,14 +53,15 @@ def image_clip(img: str, out: str, dur: float, fps: float, zoom: bool) -> None:
     graph = (
         f"[0:v]scale={OUT_W}:{OUT_H}:force_original_aspect_ratio=increase,crop={OUT_W}:{OUT_H},boxblur=40:4,"
         f"eq=brightness=-0.10:saturation=0.85,setsar=1[bg];"
-        f"[0:v]scale=-2:{fg_h}:flags=lanczos,scale='min(iw,{OUT_W - 120})':-2:flags=lanczos,setsar=1[fg];"
-        f"[bg][fg]overlay=(W-w)/2:(H-h)/2,scale={OUT_W * 2}:{OUT_H * 2}:flags=lanczos,{z},"
+        f"[0:v]scale={bw}:{bh}:flags=lanczos,setsar=1[fg];"
+        f"[bg][fg]overlay={bx}:{by},scale={OUT_W * 2}:{OUT_H * 2}:flags=lanczos,{z},"
         f"scale={OUT_W}:{OUT_H}:flags=lanczos,format=yuv420p[v]")
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-nostdin", "-loop", "1", "-framerate", str(fps), "-t", f"{dur:.3f}",
                     "-i", img, "-f", "lavfi", "-t", f"{dur:.3f}", "-i", "anullsrc=r=48000:cl=stereo",
                     "-filter_complex", graph, "-map", "[v]", "-map", "1:a", "-frames:v", str(frames),
                     "-c:v", "libx264", "-preset", "veryfast", "-crf", "14", "-c:a", "aac", "-b:a", "256k",
                     "-r", str(fps), out], check=True)
+    return bx, by, bw, bh
 
 
 def plan_durations(scenes: list[dict], voice_dur: float | None, probe_dur, xf: float) -> list[float]:
